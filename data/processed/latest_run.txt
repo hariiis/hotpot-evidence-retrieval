@@ -1,0 +1,18 @@
+Latest HotpotQA dataset build run
+========================================
+run_time: 2026-07-09T18:47:48
+input: data/raw/hotpotqa.json
+output_dir: data/processed
+num_examples: 100
+mode: pooled
+
+Output files:
+queries_path: data/processed/queries.jsonl
+passages_path: data/processed/passages.jsonl
+qrels_path: data/processed/qrels.jsonl
+
+Summary:
+num_queries: 100
+num_passages: 4086
+num_qrels: 243
+num_missing_qrels: 0
