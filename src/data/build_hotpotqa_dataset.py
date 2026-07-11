@@ -101,6 +101,12 @@ for i, example in enumerate(raw_data):
     # ---------- generate passages ----------
     for title, sentences in example["context"]:
         for sentence_idx, sentence in enumerate(sentences):
+            # # Filter out empty sentences
+            passage_text = sentence.strip()
+
+            if not passage_text:
+                continue
+
             passage_id = make_passage_id(
                 title = title,
                 sentence_idx = sentence_idx,
