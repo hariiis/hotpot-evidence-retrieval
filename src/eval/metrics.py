@@ -69,7 +69,9 @@ def load_qrels(qrels_path):
 
 
 def get_top_k_passage_ids(ranked_results, k):
-    """Return passage IDs from the top-k ranked results."""
+    """
+    Return passage IDs from the top-k ranked results.
+    """
     top_k_passage_ids = []
 
     for result in ranked_results[:k]:
@@ -78,7 +80,7 @@ def get_top_k_passage_ids(ranked_results, k):
     return top_k_passage_ids
 
 
-def recall_at_k(results, qrels, k):
+def recall_at_k(results, qrels, k, per_query_metrics=None):
     """
     Compute average Recall@k.
 
@@ -99,6 +101,20 @@ def recall_at_k(results, qrels, k):
 
         recall = len(hit_passages) / len(gold_passages)
 
+        # Write Recall@k of every query into per_query_metrics
+        if per_query_metrics is not None:
+            record = per_query_metrics.setdefault(
+                query_id, {"query_id": query_id}
+            )
+            record[f"recall_at_{k}"] = recall
+
+            if recall == 1:
+                record[f"retrieval_status at {k}"] = "success"
+            elif recall == 0:
+                record[f"retrieval_status at {k}"] = "failure"
+            else:
+                record[f"retrieval_status at {k}"] = "partial_success"
+
         total_recall += recall
         num_queries += 1
 
@@ -108,7 +124,7 @@ def recall_at_k(results, qrels, k):
     return total_recall / num_queries
 
 
-def mrr_at_k(results, qrels, k):
+def mrr_at_k(results, qrels, k, per_query_metrics=None):
     """
     Compute average MRR@k.
 
@@ -131,6 +147,13 @@ def mrr_at_k(results, qrels, k):
                 reciprocal_rank = 1 / rank
                 break
 
+        # Write MRR@k of every query into per_query_metrics
+        if per_query_metrics is not None:
+            record = per_query_metrics.setdefault(
+                query_id, {"query_id": query_id}
+            )
+            record[f"mrr_at_{k}"] = reciprocal_rank
+        
         total_rr += reciprocal_rank
         num_queries += 1
 
@@ -140,7 +163,7 @@ def mrr_at_k(results, qrels, k):
     return total_rr / num_queries
 
 
-def ndcg_at_k(results, qrels, k):
+def ndcg_at_k(results, qrels, k, per_query_metrics=None):
     """
     Compute average nDCG@k.
 
@@ -157,14 +180,17 @@ def ndcg_at_k(results, qrels, k):
         top_k_passage_ids = get_top_k_passage_ids(ranked_results, k)
 
         dcg = 0
+        # Track passages already counted so duplicate results do not increase nDCG.
+        seen_passage_ids = set() 
 
         for rank, passage_id in enumerate(top_k_passage_ids, start=1):
-            if passage_id in gold_passages:
+            if passage_id in gold_passages and passage_id not in seen_passage_ids:
                 relevance = 1
             else:
                 relevance = 0
 
             dcg += relevance / math.log2(rank + 1)
+            seen_passage_ids.add(passage_id)
 
         ideal_hits = min(len(gold_passages), k)
         idcg = 0
@@ -177,6 +203,13 @@ def ndcg_at_k(results, qrels, k):
         else:
             ndcg = dcg / idcg
 
+        # Write nDCG@k of every query into per_query_metrics
+        if per_query_metrics is not None:
+            record = per_query_metrics.setdefault(
+                query_id, {"query_id": query_id}
+            )
+            record[f"ndcg_at_{k}"] = ndcg
+        
         total_ndcg += ndcg
         num_queries += 1
 
@@ -184,3 +217,12 @@ def ndcg_at_k(results, qrels, k):
         return 0
 
     return total_ndcg / num_queries
+
+def write_per_query_metrics(per_query_metrics, output_path):
+    """
+    Write already computed per-query metrics to a jsonl file.
+    """
+    with open(output_path, "w", encoding="utf-8") as f:
+        for query_id in sorted(per_query_metrics):
+            record = per_query_metrics[query_id]
+            f.write(json.dumps(record, ensure_ascii=False) + "\n")
