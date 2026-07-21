@@ -36,6 +36,7 @@ class DenseRetriever:
         batch_size: Number of texts to encode together.
     """
 
+    # Initialize the retriever, load the model, and build or reuse passage caches.
     def __init__(
         self,
         passages: Sequence[dict[str, Any]],
@@ -86,12 +87,14 @@ class DenseRetriever:
             self._save_cache()
 
     def retrieve(self, query: str, top_k: int = 10) -> list[dict[str, Any]]:
-        """Return the highest-scoring passages for a non-empty query.
+        """
+        Encode the query and return the top-k passages ranked by cosine similarity.
 
         Embeddings are L2-normalized, so the dot product below equals cosine
         similarity.  The returned scores are plain Python floats so they can
         be written directly to JSON.
         """
+
         if not isinstance(query, str):
             raise TypeError("query must be a string")
         if not query.strip() or top_k <= 0 or not self.passage_ids:
@@ -119,6 +122,10 @@ class DenseRetriever:
         ]
 
     def _validate_passages(self) -> None:
+        """
+        Validate the required passage fields and reject duplicate passage IDs.
+        """
+
         seen_ids: set[str] = set()
         for index, passage in enumerate(self.passages):
             if not isinstance(passage, dict):
@@ -135,8 +142,12 @@ class DenseRetriever:
                 raise ValueError(f"duplicate passage_id: {passage['passage_id']}")
             seen_ids.add(passage["passage_id"])
 
+
     def _cache_is_valid(self) -> bool:
-        """Check that all cache files match this model and passage corpus."""
+        """
+        Check that all cache files match this model and passage corpus.
+        """
+
         if not (
             self.embeddings_path.exists()
             and self.ids_path.exists()
@@ -163,7 +174,10 @@ class DenseRetriever:
         )
 
     def _encode_passages(self) -> np.ndarray:
-        """Encode every passage once and return normalized float embeddings."""
+        """
+        Encode all passage texts once with normalized Sentence-BERT embeddings.
+        """
+
         if not self.passage_texts:
             # MiniLM normally produces 384 dimensions.  An empty corpus does
             # not need a model call, and retrieve() will return an empty list.
@@ -178,6 +192,10 @@ class DenseRetriever:
         )
 
     def _save_cache(self) -> None:
+        """
+        Persist embeddings, passage IDs, and cache metadata to disk.
+        """
+
         np.save(self.embeddings_path, self.passage_embeddings)
         with self.ids_path.open("w", encoding="utf-8") as file:
             json.dump(self.passage_ids, file, ensure_ascii=False, indent=2)
@@ -196,6 +214,10 @@ class DenseRetriever:
             json.dump(metadata, file, ensure_ascii=False, indent=2)
 
     def _load_ids(self) -> list[str]:
+        """
+        Load cached passage IDs and verify the file has the expected JSON shape.
+        """
+
         with self.ids_path.open("r", encoding="utf-8") as file:
             ids = json.load(file)
         if not isinstance(ids, list) or not all(isinstance(item, str) for item in ids):
@@ -206,7 +228,10 @@ class DenseRetriever:
     def _compute_fingerprint(
         passage_ids: Sequence[str], passage_texts: Sequence[str]
     ) -> str:
-        """Hash ordered IDs and text, so even one corpus edit invalidates cache."""
+        """
+        Compute a stable corpus hash from ordered passage IDs and text.
+        """
+        
         hasher = hashlib.sha256()
         for passage_id, passage_text in zip(passage_ids, passage_texts):
             hasher.update(passage_id.encode("utf-8"))
