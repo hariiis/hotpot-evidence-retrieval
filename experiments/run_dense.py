@@ -9,48 +9,30 @@ summary result files for later analysis.
 
 
 import argparse
-import csv
-import json
 import sys
 from pathlib import Path
 
 
 # Add project modules to the import path when this script is run directly.
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+sys.path.append(str(PROJECT_ROOT / "src"))
 sys.path.append(str(PROJECT_ROOT / "src" / "retrieval"))
 sys.path.append(str(PROJECT_ROOT / "src" / "eval"))
 
 from dense import DenseRetriever
-from metrics import load_qrels, mrr_at_k, ndcg_at_k, recall_at_k
-
-# Column order for the per-query metrics CSV.
-PER_QUERY_COLUMNS = ["query_id", "Recall@5", "Recall@10", "RR@10", "nDCG@10"]
-
-# Column order for the one-row summary CSV.
-SUMMARY_COLUMNS = [
-    "method",
-    "model",
-    "num_queries",
-    "top_k",
-    "Recall@5",
-    "Recall@10",
-    "MRR@10",
-    "nDCG@10",
-]
-
-
-def load_jsonl(path):
-    """Load a JSONL file into a list of dictionaries."""
-    records = []
-
-    with open(path, "r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-
-            if line:
-                records.append(json.loads(line))
-
-    return records
+from metrics import (
+    load_qrels,
+    mrr_at_k,
+    ndcg_at_k,
+    recall_at_k,
+)
+from result_format import (
+    PER_QUERY_COLUMNS,
+    SUMMARY_COLUMNS,
+    build_per_query_metric_rows,
+    build_summary_row,
+)
+from utils.result_io import load_jsonl, write_csv, write_jsonl
 
 
 def run_retrieval(queries, passages, model_name, top_k, cache_dir, batch_size):
@@ -84,51 +66,6 @@ def run_retrieval(queries, passages, model_name, top_k, cache_dir, batch_size):
             print(f"Retrieved {index}/{len(queries)} queries")
 
     return results, output_records
-
-
-def write_topk_jsonl(records, output_path):
-    """Write top-k retrieval results as one JSON object per line."""
-    output_path = Path(output_path)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-
-    with output_path.open("w", encoding="utf-8") as f:
-        for record in records:
-            f.write(json.dumps(record, ensure_ascii=False) + "\n")
-
-
-def write_per_query_csv(per_query_metrics, query_ids, output_path):
-    """Write Recall, RR, and nDCG for each query in the original query order."""
-    output_path = Path(output_path)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-
-    with output_path.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=PER_QUERY_COLUMNS)
-        writer.writeheader()
-
-        for query_id in query_ids:
-            metrics = per_query_metrics.get(query_id, {})
-
-            # Default to 0 if a query has no recorded metric entry.
-            writer.writerow(
-                {
-                    "query_id": query_id,
-                    "Recall@5": f"{metrics.get('recall_at_5', 0):.6f}",
-                    "Recall@10": f"{metrics.get('recall_at_10', 0):.6f}",
-                    "RR@10": f"{metrics.get('mrr_at_10', 0):.6f}",
-                    "nDCG@10": f"{metrics.get('ndcg_at_10', 0):.6f}",
-                }
-            )
-
-
-def write_summary_csv(row, output_path):
-    """Write the overall dense retrieval metrics as a one-row CSV."""
-    output_path = Path(output_path)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-
-    with output_path.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=SUMMARY_COLUMNS)
-        writer.writeheader()
-        writer.writerow(row)
 
 
 def short_model_name(model_name):
@@ -179,20 +116,29 @@ def main():
 
     # Preserve the query file order in the per-query CSV.
     query_ids = [query_record["query_id"] for query_record in queries]
-    summary_row = {
-        "method": "dense",
-        "model": short_model_name(args.model),
-        "num_queries": len(queries),
-        "top_k": args.top_k,
-        "Recall@5": f"{recall_at_5:.6f}",
-        "Recall@10": f"{recall_at_10:.6f}",
-        "MRR@10": f"{mrr_at_10:.6f}",
-        "nDCG@10": f"{ndcg_at_10:.6f}",
-    }
+    per_query_rows = build_per_query_metric_rows(per_query_metrics, query_ids)
+    summary_row = build_summary_row(
+        method="dense",
+        model=short_model_name(args.model),
+        num_queries=len(queries),
+        top_k=args.top_k,
+        recall_at_5=recall_at_5,
+        recall_at_10=recall_at_10,
+        mrr_at_10=mrr_at_10,
+        ndcg_at_10=ndcg_at_10,
+    )
 
-    write_topk_jsonl(output_records, args.topk_output)
-    write_per_query_csv(per_query_metrics, query_ids, args.per_query_output)
-    write_summary_csv(summary_row, args.summary_output)
+    write_jsonl(output_records, args.topk_output)
+    write_csv(
+        per_query_rows,
+        args.per_query_output,
+        fieldnames=PER_QUERY_COLUMNS,
+    )
+    write_csv(
+        [summary_row],
+        args.summary_output,
+        fieldnames=SUMMARY_COLUMNS,
+    )
 
     # Report saved output locations and final Dense retrieval scores.
     print(f"Wrote Dense top-{args.top_k} results to {args.topk_output}")

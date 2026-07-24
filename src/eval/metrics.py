@@ -218,11 +218,3 @@ def ndcg_at_k(results, qrels, k, per_query_metrics=None):
 
     return total_ndcg / num_queries
 
-def write_per_query_metrics(per_query_metrics, output_path):
-    """
-    Write already computed per-query metrics to a jsonl file.
-    """
-    with open(output_path, "w", encoding="utf-8") as f:
-        for query_id in sorted(per_query_metrics):
-            record = per_query_metrics[query_id]
-            f.write(json.dumps(record, ensure_ascii=False) + "\n")

@@ -1,2 +1,2 @@
-setting,num_queries,num_passages,corpus_mode,passage_granularity,top_k,k1,b,Recall@5,Recall@10,MRR@10,nDCG@10
-bm25_default,100,4085,pooled,sentence,10,1.5,0.75,0.546500,0.632333,0.755694,0.585073
+method,model,num_queries,top_k,Recall@5,Recall@10,MRR@10,nDCG@10
+bm25,k1=1.5_b=0.75,100,10,0.546500,0.632333,0.755694,0.585073
