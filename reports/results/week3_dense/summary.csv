@@ -1,0 +1,2 @@
+method,model,num_queries,top_k,Recall@5,Recall@10,MRR@10,nDCG@10
+dense,all-MiniLM-L6-v2,100,10,0.570333,0.653167,0.722802,0.577069

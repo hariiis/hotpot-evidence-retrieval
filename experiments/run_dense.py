@@ -86,11 +86,11 @@ def main():
     parser.add_argument("--topk_output", default="data/results/dense_top10.jsonl")
     parser.add_argument(
         "--per_query_output",
-        default="reports/results/week3_dense_per_query.csv",
+        default="reports/results/week3_dense/per_query.csv",
     )
     parser.add_argument(
         "--summary_output",
-        default="reports/results/week3_dense_results.csv",
+        default="reports/results/week3_dense/summary.csv",
     )
     args = parser.parse_args()
 

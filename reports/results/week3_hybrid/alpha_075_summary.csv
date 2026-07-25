@@ -1,0 +1,2 @@
+method,model,num_queries,top_k,Recall@5,Recall@10,MRR@10,nDCG@10
+hybrid_alpha_0.75,bm25+dense:all-MiniLM-L6-v2,100,10,0.551500,0.695667,0.773456,0.626500

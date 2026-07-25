@@ -79,11 +79,11 @@ def main():
     parser.add_argument("--topk_output", default="data/results/bm25_top10.jsonl")
     parser.add_argument(
         "--per_query_output",
-        default="reports/results/week2_bm25_per_query.csv",
+        default="reports/results/week2_bm25/per_query.csv",
     )
     parser.add_argument(
         "--summary_output",
-        default="reports/results/week2_bm25_results.csv",
+        default="reports/results/week2_bm25/summary.csv",
     )
     args = parser.parse_args()
 

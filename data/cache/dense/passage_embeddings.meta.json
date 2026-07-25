@@ -1,0 +1,5 @@
+{
+  "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+  "embedding_dim": 384,
+  "corpus_fingerprint": "8aed182f6a1e893842f853b0b93e9ef2b216b7b902059df3ce7faa5252d9743b"
+}

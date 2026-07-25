@@ -1,0 +1,4 @@
+method,model,num_queries,top_k,Recall@5,Recall@10,MRR@10,nDCG@10
+hybrid_alpha_0.25,bm25+dense:all-MiniLM-L6-v2,100,10,0.593667,0.701833,0.753718,0.616496
+hybrid_alpha_0.50,bm25+dense:all-MiniLM-L6-v2,100,10,0.572833,0.722333,0.787853,0.641097
+hybrid_alpha_0.75,bm25+dense:all-MiniLM-L6-v2,100,10,0.5515,0.695667,0.773456,0.6265
