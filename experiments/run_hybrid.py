@@ -23,7 +23,7 @@ sys.path.append(str(PROJECT_ROOT / "src" / "retrieval"))
 sys.path.append(str(PROJECT_ROOT / "src" / "eval"))
 
 from dense import DEFAULT_MODEL_NAME
-from hybrid import HybridRetriever
+from hybrid import DEFAULT_CANDIDATE_K, HybridRetriever
 from metrics import (
     load_qrels,
     mrr_at_k,
@@ -100,7 +100,10 @@ def evaluate_results(queries, qrels, results):
 def run_alpha_experiment(args, queries, passages, qrels, alpha):
     """Run retrieval, evaluate metrics, and write files for one alpha value."""
     alpha_text, alpha_label = format_alpha(alpha)
-    print(f"Running Hybrid retrieval with alpha={alpha_text}")
+    print(
+        f"Running Hybrid retrieval with alpha={alpha_text}, "
+        f"candidate_k={args.candidate_k}"
+    )
 
     retriever = HybridRetriever(
         passages=passages,
@@ -134,9 +137,10 @@ def run_alpha_experiment(args, queries, passages, qrels, alpha):
         ndcg_at_10=ndcg_at_10,
     )
 
-    topk_output = f"{args.output_dir}/hybrid_alpha_{alpha_label}_top{args.top_k}.jsonl"
-    per_query_output = f"{args.report_dir}/alpha_{alpha_label}_per_query.csv"
-    summary_output = f"{args.report_dir}/alpha_{alpha_label}_summary.csv"
+    result_label = f"alpha_{alpha_label}_candidate{args.candidate_k}"
+    topk_output = f"{args.output_dir}/hybrid_{result_label}_top{args.top_k}.jsonl"
+    per_query_output = f"{args.report_dir}/{result_label}_per_query.csv"
+    summary_output = f"{args.report_dir}/{result_label}_summary.csv"
 
     write_jsonl(output_records, topk_output)
     write_csv(per_query_rows, per_query_output, fieldnames=PER_QUERY_COLUMNS)
@@ -154,13 +158,22 @@ def run_alpha_experiment(args, queries, passages, qrels, alpha):
 
 
 def main():
-    """Parse arguments, run all alpha experiments, and save one combined CSV."""
+    """Parse arguments, run alpha experiment(s), and save result files."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--queries", required=True)
     parser.add_argument("--passages", required=True)
     parser.add_argument("--qrels", required=True)
     parser.add_argument("--top_k", type=int, default=10)
-    parser.add_argument("--candidate_k", type=int, default=100)
+    parser.add_argument(
+        "--candidate_k",
+        type=int,
+        default=DEFAULT_CANDIDATE_K,
+        help=(
+            "Number of candidates to retrieve from each base retriever before "
+            "hybrid fusion. BM25 and Dense use the same value. "
+            f"Default: {DEFAULT_CANDIDATE_K}."
+        ),
+    )
     parser.add_argument("--alphas", type=float, nargs="+", default=[0.25, 0.5, 0.75])
     parser.add_argument("--k1", type=float, default=1.5)
     parser.add_argument("--b", type=float, default=0.75)
@@ -171,24 +184,17 @@ def main():
     parser.add_argument("--report_dir", default="reports/results/week3_hybrid")
     args = parser.parse_args()
 
+    if args.top_k <= 0:
+        parser.error("--top_k must be a positive integer")
+    if args.candidate_k < args.top_k:
+        parser.error("--candidate_k must be greater than or equal to --top_k")
+
     queries = load_jsonl(args.queries)
     passages = load_jsonl(args.passages)
     qrels = load_qrels(args.qrels)
 
-    all_summary_rows = []
     for alpha in args.alphas:
-        summary_row = run_alpha_experiment(args, queries, passages, qrels, alpha)
-        all_summary_rows.append(summary_row)
-
-    # This file makes it easy to compare alpha=0.25/0.50/0.75 in one table.
-    combined_summary_output = f"{args.report_dir}/summary_all.csv"
-    write_csv(
-        all_summary_rows,
-        combined_summary_output,
-        fieldnames=SUMMARY_COLUMNS,
-    )
-
-    print(f"Wrote combined Hybrid summary to {combined_summary_output}")
+        run_alpha_experiment(args, queries, passages, qrels, alpha)
 
 
 if __name__ == "__main__":

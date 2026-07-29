@@ -14,6 +14,9 @@ from bm25 import BM25Retriever
 from dense import DenseRetriever, DEFAULT_MODEL_NAME
 
 
+DEFAULT_CANDIDATE_K = 100
+
+
 class HybridRetriever:
     """Retrieve passages with a weighted BM25 + Dense score."""
 
@@ -80,18 +83,20 @@ class HybridRetriever:
         self,
         query: str,
         top_k: int = 10,
-        candidate_k: int = 100,
+        candidate_k: int = DEFAULT_CANDIDATE_K,
     ) -> list[dict[str, Any]]:
         """
         Return top-k passages ranked by the hybrid score.
 
-        candidate_k controls how many candidates are collected from each base
-        retriever before score fusion.  It should usually be larger than top_k.
+        candidate_k controls how many top-ranked passages BM25 and Dense each
+        provide to the Hybrid fusion step. The final Hybrid output is still
+        limited by top_k.
         """
         if top_k <= 0:
             return []
 
-        candidate_k = max(candidate_k, top_k)
+        if candidate_k < top_k:
+            raise ValueError("candidate_k must be greater than or equal to top_k")
 
         # Retrieve independent candidate lists from the two base methods.
         bm25_results = self.bm25.retrieve(query, top_k=candidate_k)
