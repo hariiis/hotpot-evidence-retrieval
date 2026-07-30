@@ -1,4 +1,4 @@
-"""Small helpers for reading and writing experiment result files."""
+"""Small helpers for reading and writing JSONL and CSV files."""
 
 import csv
 import json

@@ -4,9 +4,9 @@
 
 This case study uses the same HotpotQA sentence-level evidence retrieval data, compare BM25, Dense, and Hybrid three methods on query level.
 
-- Queries: `data/processed/queries.jsonl`, 100 queries
-- Passages: `data/processed/passages.jsonl`, 4085 sentence passages
-- Qrels: `data/processed/qrels.jsonl`, 243 relevant query-passage labels
+- Queries: `data/processed/hotpotqa/queries.jsonl`, 100 queries
+- Passages: `data/processed/hotpotqa/passages.jsonl`, 4085 sentence passages
+- Qrels: `data/processed/hotpotqa/qrels.jsonl`, 243 relevant query-passage labels
 - Methods:
     - BM25: `k1=1.5`, `b=0.75`
     - Dense: 

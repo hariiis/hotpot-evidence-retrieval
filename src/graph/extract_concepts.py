@@ -2,8 +2,8 @@
 Extract graph-ready concepts from processed HotpotQA queries and passages.
 
 This script reads:
-- data/processed/queries.jsonl
-- data/processed/passages.jsonl
+- data/processed/hotpotqa/queries.jsonl
+- data/processed/hotpotqa/passages.jsonl
 
 It uses spaCy to extract two concept sources from each text:
 (1) named entities from doc.ents
@@ -12,8 +12,8 @@ It uses spaCy to extract two concept sources from each text:
 Concepts are normalized with a small rule-based pipeline: lowercase, remove
 most punctuation, remove stop words, remove concepts that are too short, and
 deduplicate repeated concepts within the same text. The main outputs are:
-- data/processed/query_concepts.jsonl
-- data/processed/passage_concepts.jsonl
+- data/processed/concepts/query_concepts.jsonl
+- data/processed/concepts/passage_concepts.jsonl
 
 Use --debug to also write records with raw concept text, normalized concept,
 and source type for error analysis.
@@ -31,7 +31,7 @@ from spacy.lang.en.stop_words import STOP_WORDS
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.append(str(PROJECT_ROOT / "src"))
 
-from utils.result_io import load_jsonl, write_jsonl
+from utils.jsonl_io import load_jsonl, write_jsonl
 
 
 TOKEN_PATTERN = re.compile(r"[a-z0-9]+(?:'[a-z0-9]+)?")
@@ -92,9 +92,9 @@ def process_records(records, id_field, text_field, nlp, batch_size, min_chars):
     """Run spaCy over input records and build concept plus debug output rows."""
 
     # Store the simplified concept-extraction results for each record.
-    concept_records = [] 
+    concept_records = []
     # Store detailed extraction information for inspection and debugging.
-    debug_records = []  
+    debug_records = []
     texts = (record[text_field] for record in records)
 
     for record, doc in zip(records, nlp.pipe(texts, batch_size=batch_size)):
@@ -120,30 +120,30 @@ def process_records(records, id_field, text_field, nlp, batch_size, min_chars):
 def parse_args():
     """Parse command-line arguments for concept extraction paths and settings."""
     parser = argparse.ArgumentParser()
-    parser.add_argument("--queries", default="data/processed/queries.jsonl")
-    parser.add_argument("--passages", default="data/processed/passages.jsonl")
+    parser.add_argument("--queries", default="data/processed/hotpotqa/queries.jsonl")
+    parser.add_argument("--passages", default="data/processed/hotpotqa/passages.jsonl")
     parser.add_argument(
         "--query_output",
-        default="data/processed/query_concepts.jsonl",
+        default="data/processed/concepts/query_concepts.jsonl",
     )
     parser.add_argument(
         "--passage_output",
-        default="data/processed/passage_concepts.jsonl",
+        default="data/processed/concepts/passage_concepts.jsonl",
     )
     parser.add_argument(
         "--query_debug_output",
-        default="data/processed/query_concepts_debug.jsonl",
+        default="data/processed/concepts/query_concepts_debug.jsonl",
     )
     parser.add_argument(
         "--passage_debug_output",
-        default="data/processed/passage_concepts_debug.jsonl",
+        default="data/processed/concepts/passage_concepts_debug.jsonl",
     )
     parser.add_argument("--model", default="en_core_web_sm")
     parser.add_argument("--batch_size", type=int, default=100)
     parser.add_argument("--min_chars", type=int, default=2)
 
     # Add a --debug flag; it is False by default and becomes True when included.
-    parser.add_argument("--debug", action="store_true") 
+    parser.add_argument("--debug", action="store_true")
 
     return parser.parse_args()
 
