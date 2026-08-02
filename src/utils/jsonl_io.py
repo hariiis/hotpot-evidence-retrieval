@@ -1,8 +1,11 @@
-"""Small helpers for reading and writing JSONL and CSV files."""
+"""Small helpers for reading and writing project data files."""
 
 import csv
 import json
+import pickle
 from pathlib import Path
+
+import networkx as nx
 
 
 def load_jsonl(path):
@@ -38,3 +41,23 @@ def write_csv(rows, output_path, fieldnames):
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
+
+
+def load_graph(path):
+    """Load a pickled NetworkX graph."""
+    with Path(path).open("rb") as f:
+        graph = pickle.load(f)
+
+    if not isinstance(graph, nx.Graph):
+        raise TypeError(f"Expected a NetworkX graph, got {type(graph)}")
+
+    return graph
+
+
+def save_graph(graph, output_path):
+    """Save a NetworkX graph as a pickle file."""
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    with output_path.open("wb") as f:
+        pickle.dump(graph, f)

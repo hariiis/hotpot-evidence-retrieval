@@ -17,7 +17,6 @@ Edges mean co-occurrence only, not strict semantic relations.
 """
 
 import argparse
-import pickle
 import sys
 from itertools import combinations
 from pathlib import Path
@@ -28,7 +27,7 @@ import networkx as nx
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.append(str(PROJECT_ROOT / "src"))
 
-from utils.jsonl_io import load_jsonl
+from utils.jsonl_io import load_jsonl, save_graph
 
 
 def deduplicate_concepts(concepts):
@@ -77,15 +76,6 @@ def build_concept_graph(records):
     )
 
     return graph
-
-
-def save_graph(graph, output_path):
-    """Save the NetworkX graph as a pickle file."""
-    output_path = Path(output_path)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-
-    with output_path.open("wb") as f:
-        pickle.dump(graph, f)
 
 
 def parse_args():

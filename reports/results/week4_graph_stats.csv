@@ -1,0 +1,103 @@
+section,rank,metric,concept,value,extra
+graph_summary,,num_nodes,,17163,|V|
+graph_summary,,num_edges,,113966,|E|
+graph_summary,,average_degree,,13.280429,2*|E|/|V|
+graph_summary,,connected_components,,204,weak components if graph is directed
+graph_summary,,largest_component_size,,16556,nodes in largest component
+top_degree_concepts,1,degree,american,1210,
+top_degree_concepts,2,degree,united states,859,
+top_degree_concepts,3,degree,english,554,
+top_degree_concepts,4,degree,second,541,
+top_degree_concepts,5,degree,film,501,
+top_degree_concepts,6,degree,album,409,
+top_degree_concepts,7,degree,song,402,
+top_degree_concepts,8,degree,british,390,
+top_degree_concepts,9,degree,italian,350,
+top_degree_concepts,10,degree,time,344,
+top_degree_concepts,11,degree,university,322,
+top_degree_concepts,12,degree,series,307,
+top_degree_concepts,13,degree,year,287,
+top_degree_concepts,14,degree,u s,279,
+top_degree_concepts,15,degree,australia,274,
+top_degree_concepts,16,degree,season,274,
+top_degree_concepts,17,degree,september,273,
+top_degree_concepts,18,degree,australian,271,
+top_degree_concepts,19,degree,members,263,
+top_degree_concepts,20,degree,october,261,
+top_weighted_degree_concepts,1,weighted_degree,american,1463,
+top_weighted_degree_concepts,2,weighted_degree,united states,1002,
+top_weighted_degree_concepts,3,weighted_degree,english,642,
+top_weighted_degree_concepts,4,weighted_degree,second,620,
+top_weighted_degree_concepts,5,weighted_degree,song,533,
+top_weighted_degree_concepts,6,weighted_degree,film,532,
+top_weighted_degree_concepts,7,weighted_degree,album,468,
+top_weighted_degree_concepts,8,weighted_degree,university,418,
+top_weighted_degree_concepts,9,weighted_degree,british,410,
+top_weighted_degree_concepts,10,weighted_degree,italian,388,
+top_weighted_degree_concepts,11,weighted_degree,time,368,
+top_weighted_degree_concepts,12,weighted_degree,commonwealth,349,
+top_weighted_degree_concepts,13,weighted_degree,series,339,
+top_weighted_degree_concepts,14,weighted_degree,australia,329,
+top_weighted_degree_concepts,15,weighted_degree,members,327,
+top_weighted_degree_concepts,16,weighted_degree,season,323,
+top_weighted_degree_concepts,17,weighted_degree,year,313,
+top_weighted_degree_concepts,18,weighted_degree,australian,307,
+top_weighted_degree_concepts,19,weighted_degree,u s,300,
+top_weighted_degree_concepts,20,weighted_degree,september,295,
+top_pagerank_concepts,1,pagerank,american,0.005494588862,
+top_pagerank_concepts,2,pagerank,united states,0.003398277973,
+top_pagerank_concepts,3,pagerank,film,0.002223824729,
+top_pagerank_concepts,4,pagerank,second,0.002222939441,
+top_pagerank_concepts,5,pagerank,english,0.002151465685,
+top_pagerank_concepts,6,pagerank,song,0.002033114610,
+top_pagerank_concepts,7,pagerank,album,0.001759739705,
+top_pagerank_concepts,8,pagerank,italian,0.001432571207,
+top_pagerank_concepts,9,pagerank,university,0.001426896047,
+top_pagerank_concepts,10,pagerank,series,0.001409279314,
+top_pagerank_concepts,11,pagerank,time,0.001357268774,
+top_pagerank_concepts,12,pagerank,british,0.001355245391,
+top_pagerank_concepts,13,pagerank,season,0.001144218875,
+top_pagerank_concepts,14,pagerank,u s,0.001082850104,
+top_pagerank_concepts,15,pagerank,september,0.001066648642,
+top_pagerank_concepts,16,pagerank,members,0.001043418639,
+top_pagerank_concepts,17,pagerank,year,0.001014504825,
+top_pagerank_concepts,18,pagerank,2010,0.001013023269,
+top_pagerank_concepts,19,pagerank,october,0.000990499278,
+top_pagerank_concepts,20,pagerank,australia,0.000964563749,
+passage_concept_count_distribution,,num_passages,,13,concept_count=0; fraction=0.003182
+passage_concept_count_distribution,,num_passages,,84,concept_count=1; fraction=0.020563
+passage_concept_count_distribution,,num_passages,,178,concept_count=2; fraction=0.043574
+passage_concept_count_distribution,,num_passages,,346,concept_count=3; fraction=0.084700
+passage_concept_count_distribution,,num_passages,,460,concept_count=4; fraction=0.112607
+passage_concept_count_distribution,,num_passages,,574,concept_count=5; fraction=0.140514
+passage_concept_count_distribution,,num_passages,,514,concept_count=6; fraction=0.125826
+passage_concept_count_distribution,,num_passages,,440,concept_count=7; fraction=0.107711
+passage_concept_count_distribution,,num_passages,,353,concept_count=8; fraction=0.086414
+passage_concept_count_distribution,,num_passages,,280,concept_count=9; fraction=0.068543
+passage_concept_count_distribution,,num_passages,,215,concept_count=10; fraction=0.052632
+passage_concept_count_distribution,,num_passages,,167,concept_count=11; fraction=0.040881
+passage_concept_count_distribution,,num_passages,,139,concept_count=12; fraction=0.034027
+passage_concept_count_distribution,,num_passages,,88,concept_count=13; fraction=0.021542
+passage_concept_count_distribution,,num_passages,,69,concept_count=14; fraction=0.016891
+passage_concept_count_distribution,,num_passages,,42,concept_count=15; fraction=0.010282
+passage_concept_count_distribution,,num_passages,,32,concept_count=16; fraction=0.007834
+passage_concept_count_distribution,,num_passages,,22,concept_count=17; fraction=0.005386
+passage_concept_count_distribution,,num_passages,,10,concept_count=18; fraction=0.002448
+passage_concept_count_distribution,,num_passages,,9,concept_count=19; fraction=0.002203
+passage_concept_count_distribution,,num_passages,,18,concept_count=20; fraction=0.004406
+passage_concept_count_distribution,,num_passages,,2,concept_count=21; fraction=0.000490
+passage_concept_count_distribution,,num_passages,,5,concept_count=22; fraction=0.001224
+passage_concept_count_distribution,,num_passages,,6,concept_count=23; fraction=0.001469
+passage_concept_count_distribution,,num_passages,,3,concept_count=24; fraction=0.000734
+passage_concept_count_distribution,,num_passages,,1,concept_count=26; fraction=0.000245
+passage_concept_count_distribution,,num_passages,,1,concept_count=27; fraction=0.000245
+passage_concept_count_distribution,,num_passages,,1,concept_count=28; fraction=0.000245
+passage_concept_count_distribution,,num_passages,,3,concept_count=29; fraction=0.000734
+passage_concept_count_distribution,,num_passages,,1,concept_count=30; fraction=0.000245
+passage_concept_count_distribution,,num_passages,,3,concept_count=33; fraction=0.000734
+passage_concept_count_distribution,,num_passages,,1,concept_count=34; fraction=0.000245
+passage_concept_count_distribution,,num_passages,,1,concept_count=36; fraction=0.000245
+passage_concept_count_distribution,,num_passages,,1,concept_count=39; fraction=0.000245
+passage_concept_count_distribution,,num_passages,,1,concept_count=42; fraction=0.000245
+passage_concept_count_distribution,,num_passages,,1,concept_count=50; fraction=0.000245
+passage_concept_count_distribution,,num_passages,,1,concept_count=56; fraction=0.000245
