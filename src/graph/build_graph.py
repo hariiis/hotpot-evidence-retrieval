@@ -27,7 +27,7 @@ import networkx as nx
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.append(str(PROJECT_ROOT / "src"))
 
-from utils.jsonl_io import load_jsonl, save_graph
+from utils.file_io import load_jsonl, save_graph
 
 
 def deduplicate_concepts(concepts):

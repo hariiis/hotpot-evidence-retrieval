@@ -25,7 +25,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.append(str(PROJECT_ROOT / "src"))
 
 from graph.build_graph import deduplicate_concepts
-from utils.jsonl_io import load_graph, load_jsonl, write_csv
+from utils.file_io import load_graph, load_jsonl, write_csv
 
 
 GRAPH_STATS_COLUMNS = ["section", "rank", "metric", "concept", "value", "extra"]

@@ -32,7 +32,7 @@ from result_format import (
     build_per_query_metric_rows,
     build_summary_row,
 )
-from utils.jsonl_io import load_jsonl, write_csv, write_jsonl
+from utils.file_io import load_jsonl, write_csv, write_jsonl
 
 
 def run_retrieval(queries, passages, model_name, top_k, cache_dir, batch_size):

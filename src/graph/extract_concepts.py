@@ -31,7 +31,7 @@ from spacy.lang.en.stop_words import STOP_WORDS
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.append(str(PROJECT_ROOT / "src"))
 
-from utils.jsonl_io import load_jsonl, write_jsonl
+from utils.file_io import load_jsonl, write_jsonl
 
 
 TOKEN_PATTERN = re.compile(r"[a-z0-9]+(?:'[a-z0-9]+)?")
