@@ -23,56 +23,56 @@ Gold concepts 在当前图中几乎总能入图，平均 `gold_coverage` 为 1.0
 
 | Rank | Concept | Passage Count | Degree | 人工判断 |
 |---:|---|---:|---:|---|
-| 1 | american | 196 | 1210 | 有语义，可用于 nationality/type 判断，但极高频，强噪声节点 |
-| 2 | united states | 125 | 859 | 有语义，可桥接国家/地点，但过宽 |
-| 3 | song | 88 | 402 | 通用类型词，扩展噪声大 |
-| 4 | second | 86 | 541 | 序数/泛词，通常不适合作为 expansion concept |
-| 5 | film | 80 | 501 | 通用类型词，噪声大 |
-| 6 | english | 74 | 554 | 有语义但歧义大，可指语言/国籍/地点相关 |
-| 7 | album | 72 | 409 | 通用类型词，音乐题有用但需降权 |
-| 8 | university | 58 | 322 | 通用机构类型，需降权 |
-| 9 | series | 58 | 307 | 通用类型词，需降权 |
-| 10 | time | 50 | 344 | 泛词，基本无 expansion 价值 |
-| 11 | british | 46 | 390 | 有语义，可用于 nationality 判断，但高频 |
-| 12 | italian | 46 | 350 | 有语义，可用于 nationality 判断，但高频 |
-| 13 | season | 46 | 274 | 通用类型词 |
-| 14 | 2010 | 41 | 232 | 年份节点，只有时间题中有用 |
-| 15 | members | 40 | 263 | 泛词，且与 `member` 重复 |
-| 16 | year | 39 | 287 | 泛词，噪声大 |
-| 17 | number | 38 | 229 | 泛词，噪声大 |
-| 18 | u s | 38 | 279 | 与 `united states` 语义重复，normalization 未合并 |
-| 19 | october | 37 | 261 | 月份节点，通常应降权或按题型保留 |
-| 20 | september | 37 | 273 | 月份节点，通常应降权或按题型保留 |
-| 21 | member | 35 | 215 | 与 `members` 重复，泛词 |
-| 22 | director | 34 | 222 | 角色词，可能有桥接价值但过宽 |
-| 23 | june | 34 | 234 | 月份节点 |
-| 24 | july | 33 | 233 | 月份节点 |
-| 25 | november | 33 | 259 | 月份节点 |
-| 26 | april | 32 | 229 | 月份节点 |
-| 27 | california | 31 | 184 | 地点实体，可用 |
-| 28 | team | 31 | 201 | 通用类型词 |
-| 29 | 2014 | 30 | 223 | 年份节点 |
-| 30 | new york city | 30 | 197 | 具体地点，可用，但仍偏高频 |
-| 31 | years | 30 | 256 | 与 `year` 重复，泛词 |
-| 32 | australia | 30 | 274 | 地点实体，可用 |
-| 33 | february | 29 | 175 | 月份节点 |
-| 34 | town | 29 | 206 | 泛地点类型 |
-| 35 | city | 29 | 235 | 泛地点类型 |
-| 36 | world | 28 | 202 | 泛词 |
-| 37 | group | 28 | 218 | 通用类型词 |
-| 38 | population | 27 | 124 | 可用于 population 题型，但仍是 answer-type 词 |
-| 39 | work | 27 | 201 | 泛词 |
-| 40 | place | 27 | 200 | 泛词 |
-| 41 | men | 27 | 97 | 泛词 |
-| 42 | united kingdom | 27 | 155 | 地点实体，可用 |
-| 43 | lake | 27 | 117 | 类型词，地理题可用 |
-| 44 | 2000 | 27 | 180 | 年份节点 |
-| 45 | march | 27 | 243 | 月份节点 |
-| 46 | love | 26 | 172 | 歧义词，噪声大 |
-| 47 | january | 26 | 225 | 月份节点 |
-| 48 | state | 26 | 167 | 泛词 |
-| 49 | home games | 26 | 79 | 具体短语，有桥接价值 |
-| 50 | president | 26 | 217 | 角色词，可能有桥接价值但过宽 |
+| 1 | american | 196 | 1210 | 国籍/属性词；极高频、强噪声，可用于 nationality/type 判断但必须降权 |
+| 2 | united states | 125 | 859 | 国家/地点实体；过宽、高噪声，可桥接地点但不宜直接强扩展 |
+| 3 | song | 88 | 402 | 通用媒体类型词；高噪声，扩展会引入大量非特异歌曲相关节点 |
+| 4 | second | 86 | 541 | 序数/泛词；高噪声，通常不适合作为 expansion concept |
+| 5 | film | 80 | 501 | 通用媒体类型词；高噪声，扩展会偏向热门电影相关节点 |
+| 6 | english | 74 | 554 | 语言/国籍/地点相关属性词；高噪声，语义歧义大 |
+| 7 | album | 72 | 409 | 通用媒体类型词；中高噪声，音乐题有用但需降权 |
+| 8 | university | 58 | 322 | 通用机构类型词；中高噪声，容易引入无关学校节点 |
+| 9 | series | 58 | 307 | 通用作品类型词；中高噪声，需降权使用 |
+| 10 | time | 50 | 344 | 泛词；高噪声，基本无 expansion 价值 |
+| 11 | british | 46 | 390 | 国籍/属性词；中高噪声，可用于 nationality 判断但需降权 |
+| 12 | italian | 46 | 350 | 国籍/属性词；中高噪声，可用于 nationality 判断但需降权 |
+| 13 | season | 46 | 274 | 通用时间/作品结构词；中高噪声，需按题型保留 |
+| 14 | 2010 | 41 | 232 | 年份节点；中高噪声，只有时间题中较有用 |
+| 15 | members | 40 | 263 | 泛词/成员关系词；中高噪声，且与 `member` 重复 |
+| 16 | year | 39 | 287 | 泛时间词；高噪声，直接扩展价值低 |
+| 17 | number | 38 | 229 | 泛词/数量词；高噪声，直接扩展价值低 |
+| 18 | u s | 38 | 279 | 国家缩写/normalization 残留；中高噪声，且与 `united states` 语义重复 |
+| 19 | october | 37 | 261 | 月份节点；中高噪声，通常应降权或按题型保留 |
+| 20 | september | 37 | 273 | 月份节点；中高噪声，通常应降权或按题型保留 |
+| 21 | member | 35 | 215 | 泛词/成员关系词；中高噪声，且与 `members` 重复 |
+| 22 | director | 34 | 222 | 职业/角色词；中高噪声，可能有桥接价值但过宽 |
+| 23 | june | 34 | 234 | 月份节点；中高噪声，通常应降权或按题型保留 |
+| 24 | july | 33 | 233 | 月份节点；中高噪声，通常应降权或按题型保留 |
+| 25 | november | 33 | 259 | 月份节点；中高噪声，通常应降权或按题型保留 |
+| 26 | april | 32 | 229 | 月份节点；中高噪声，通常应降权或按题型保留 |
+| 27 | california | 31 | 184 | 地点实体；中等噪声，可用但仍需避免无条件强扩展 |
+| 28 | team | 31 | 201 | 通用组织/体育类型词；中高噪声，直接扩展过宽 |
+| 29 | 2014 | 30 | 223 | 年份节点；中高噪声，只有时间题中较有用 |
+| 30 | new york city | 30 | 197 | 具体地点实体；中等噪声，可用但仍偏高频 |
+| 31 | years | 30 | 256 | 泛时间词；高噪声，且与 `year` 重复 |
+| 32 | australia | 30 | 274 | 国家/地点实体；中高噪声，可用但需降权 |
+| 33 | february | 29 | 175 | 月份节点；中等噪声，通常应降权或按题型保留 |
+| 34 | town | 29 | 206 | 泛地点类型词；中高噪声，直接扩展过宽 |
+| 35 | city | 29 | 235 | 泛地点类型词；中高噪声，直接扩展过宽 |
+| 36 | world | 28 | 202 | 泛词；中高噪声，直接扩展价值低 |
+| 37 | group | 28 | 218 | 通用组织类型词；中高噪声，直接扩展过宽 |
+| 38 | population | 27 | 124 | answer-type/数量主题词；中等噪声，population 题型可保留但需降权 |
+| 39 | work | 27 | 201 | 泛词；中高噪声，直接扩展价值低 |
+| 40 | place | 27 | 200 | 泛地点/泛词；中高噪声，直接扩展价值低 |
+| 41 | men | 27 | 97 | 泛人群词；中等噪声，语义过宽 |
+| 42 | united kingdom | 27 | 155 | 国家/地点实体；中等噪声，可用但需避免无条件强扩展 |
+| 43 | lake | 27 | 117 | 地理类型词；中等噪声，地理题可用但需降权 |
+| 44 | 2000 | 27 | 180 | 年份节点；中等噪声，只有时间题中较有用 |
+| 45 | march | 27 | 243 | 月份节点；中高噪声，通常应降权或按题型保留 |
+| 46 | love | 26 | 172 | 歧义词/主题词；中高噪声，语义分散 |
+| 47 | january | 26 | 225 | 月份节点；中高噪声，通常应降权或按题型保留 |
+| 48 | state | 26 | 167 | 泛地点/行政类型词；中高噪声，直接扩展过宽 |
+| 49 | home games | 26 | 79 | 具体事件/场馆关系短语；低到中等噪声，有桥接价值 |
+| 50 | president | 26 | 217 | 职业/角色词；中高噪声，可能有桥接价值但过宽 |
 
 高频 concepts 的主要问题不是完全无意义，而是很多节点过宽。它们能提高 recall，但会把 expansion 推向热门实体、热门年份、热门类型词。
 
@@ -105,30 +105,31 @@ Gold concepts 在当前图中几乎总能入图，平均 `gold_coverage` 为 1.0
 
 ## 20 个 Gold Evidence Passage Concepts 检查
 
-| # | Passage | Concepts 质量判断 |
-|---:|---|---|
-| 1 | Scott Derrickson::0 | 实体、出生日期、nationality、职业抽取得较好；`american director` 与 `director` 类关系未合并 |
-| 2 | Ed Wood::0 | 实体和职业完整；月份 `october`、`december` 作为单独节点偏噪声 |
-| 3 | Kiss and Tell (1945 film)::0 | 电影、年份、Shirley Temple、Corliss Archer 抽取得好；`kiss`/`tell` 拆分会引入噪声 |
-| 4 | Shirley Temple::0 | 人名、日期、职业较完整；`hollywood's number box office draw` 太细 |
-| 5 | Shirley Temple::1 | `chief` 和 `protocol` 被拆开，缺少完整 `chief of protocol`，会影响 bridge |
-| 6 | The Hork-Bajir Chronicles::0 | 作品名、series、companion book 可用；`second` 单独节点噪声大 |
-| 7 | The Hork-Bajir Chronicles::1 | 大量泛词：respect、continuity、place、book、events、story、time，桥接质量弱 |
-| 8 | The Hork-Bajir Chronicles::2 | 专名较好；`world`、`companion`、`story` 较泛 |
-| 9 | Animorphs::0 | 作品、作者、系列类型抽取得较好；`science fantasy series` 与 query 的更长短语不匹配 |
-| 10 | Animorphs::1 | 多数为泛概念：person、turns、books、perspectives；能入图但桥接弱 |
-| 11 | Laleli Mosque::0 | 地点、别名、建筑类型较好 |
-| 12 | Esma Sultan Mansion::0 | 概念完整，但非 ASCII/重音归一化造成 `ortak y`、`yal s` 等损伤 |
-| 13 | Big Stone Gap (film)::0 | 电影、年份、导演、制作方较好；超长类型短语太细 |
-| 14 | Adriana Trigiani::0 | 人名、地点、职业较好；`sixteen` 单独节点偏噪声 |
-| 15 | 2014 S/S::0 | 专辑和团体相关概念质量好；`s s` 是格式化残留但对本题可用 |
-| 16 | Winner (band)::0 | 团体、年份、YG Entertainment 抽取得好 |
-| 17 | Eenasul Fateh::0 | 人名、stage name、职业抽取得好 |
-| 18 | Management consulting::0 | 领域概念可用；`practice`、`plans`、`improvement` 这类词偏泛 |
-| 19 | Lewiston Maineiacs::1 | `home games` 和场馆名可用；`androscoggin bank colis e` 有重音损伤 |
-| 20 | Androscoggin Bank Colisée::0 | 场馆、容量、地点可用；`4 000`、`3 677` 是有价值答案概念，但需要数值处理；场馆名重音损伤 |
+| # | Passage | 抽取到的 Concepts | Concepts 质量判断 |
+|---:|---|---|---|
+| 1 | Scott Derrickson::0 | `scott derrickson`; `july 16 1966`; `american`; `american director`; `screenwriter`; `producer` | 实体、出生日期、nationality、职业抽取得较好；`american director` 与 `director` 类关系未合并 |
+| 2 | Ed Wood::0 | `edward davis wood jr`; `october 10 1924`; `december 10 1978`; `american`; `october`; `december`; `american filmmaker`; `actor`; `writer`; `producer`; `director` | 实体和职业完整；月份 `october`、`december` 作为单独节点偏噪声 |
+| 3 | Kiss and Tell (1945 film)::0 | `kiss`; `tell`; `1945`; `american`; `17 year old`; `shirley temple`; `corliss archer`; `1945 american comedy film`; `17 year old shirley temple` | 电影、年份、Shirley Temple、Corliss Archer 抽取得好；`kiss`/`tell` 拆分会引入噪声 |
+| 4 | Shirley Temple::0 | `shirley temple black`; `april 23 1928`; `february 10 2014`; `american`; `hollywood`; `1935`; `april`; `february`; `american actress`; `singer`; `dancer`; `businesswoman`; `diplomat`; `hollywood's number box office draw`; `child actress` | 人名、日期、职业较完整；`hollywood's number box office draw` 太细 |
+| 5 | Shirley Temple::1 | `united states`; `ghana`; `czechoslovakia`; `adult`; `united states ambassador`; `chief`; `protocol` | `chief` 和 `protocol` 被拆开，缺少完整 `chief of protocol`，会影响 bridge |
+| 6 | The Hork-Bajir Chronicles::0 | `second`; `k applegate`; `hork bajir chronicles`; `second companion book`; `animorphs series` | 作品名、series、companion book 可用；`second` 单独节点噪声大 |
+| 7 | The Hork-Bajir Chronicles::1 | `23`; `pretender`; `ellimist chronicles`; `andalite chronicles`; `respect`; `continuity`; `series`; `place`; `book`; `events`; `story`; `time` | 大量泛词：respect、continuity、place、book、events、story、time，桥接质量弱 |
+| 8 | The Hork-Bajir Chronicles::2 | `tobias`; `jara hamee`; `yeerks`; `hork bajir`; `aldrea`; `andalite`; `dak hamee`; `book`; `valley`; `free hork bajir`; `story`; `companion`; `world`; `invasion` | 专名较好；`world`、`companion`、`story` 较泛 |
+| 9 | Animorphs::0 | `katherine applegate`; `michael grant`; `k applegate`; `scholastic`; `animorphs`; `science fantasy series`; `young adult books`; `husband` | 作品、作者、系列类型抽取得较好；`science fantasy series` 与 query 的更长短语不匹配 |
+| 10 | Animorphs::1 | `person`; `main characters`; `turns`; `books`; `perspectives` | 多数为泛概念：person、turns、books、perspectives；能入图但桥接弱 |
+| 11 | Laleli Mosque::0 | `laleli mosque`; `turkish`; `laleli camii`; `tulip mosque`; `18th century`; `ottoman`; `laleli`; `fatih`; `istanbul`; `turkey`; `18th century ottoman imperial mosque`; `laleli fatih istanbul turkey` | 地点、别名、建筑类型较好 |
+| 12 | Esma Sultan Mansion::0 | `turkish`; `english`; `bosphorus ortak y`; `istanbul`; `turkey`; `esma sultan`; `today`; `esma sultan mansion`; `esma sultan yal s`; `historical yal`; `waterside mansion`; `bosphorus`; `ortak y neighborhood`; `original owner`; `cultural center` | 概念完整，但非 ASCII/重音归一化造成 `ortak y`、`yal s` 等损伤 |
+| 13 | Big Stone Gap (film)::0 | `big stone gap`; `2014`; `american`; `adriana trigiani`; `donna gigliotti`; `altar identity studios`; `media society`; `2014 american drama romantic comedy film`; `subsidiary` | 电影、年份、导演、制作方较好；超长类型短语太细 |
+| 14 | Adriana Trigiani::0 | `adriana trigiani`; `italian`; `american`; `sixteen`; `greenwich village`; `new york city`; `italian american best selling author`; `sixteen books`; `television writer`; `film director`; `entrepreneur` | 人名、地点、职业较好；`sixteen` 单独节点偏噪声 |
+| 15 | 2014 S/S::0 | `s s`; `south korean`; `2014 s s`; `debut album`; `south korean group winner` | 专辑和团体相关概念质量好；`s s` 是格式化残留但对本题可用 |
+| 16 | Winner (band)::0 | `south korean`; `2013`; `yg entertainment`; `2014`; `winner`; `hangul`; `south korean boy group` | 团体、年份、YG Entertainment 抽取得好 |
+| 17 | Eenasul Fateh::0 | `eenasul fateh`; `bengali`; `3 april 1959`; `aladin`; `bangladeshi`; `magician`; `stage`; `bangladeshi british cultural practitioner`; `live artist`; `international management consultant` | 人名、stage name、职业抽取得好 |
+| 18 | Management consulting::0 | `management consulting`; `practice`; `organizations`; `performance`; `analysis`; `existing organizational problems`; `development`; `plans`; `improvement` | 领域概念可用；`practice`、`plans`、`improvement` 这类词偏泛 |
+| 19 | Lewiston Maineiacs::1 | `androscoggin bank colis e`; `team`; `home games` | `home games` 和场馆名可用；`androscoggin bank colis e` 有重音损伤 |
+| 20 | Androscoggin Bank Colisée::0 | `androscoggin bank colis e`; `central maine`; `lewiston colisee`; `4 000`; `3 677`; `lewiston`; `maine`; `1958`; `central maine civic center`; `4 000 capacity`; `multi purpose arena` | 场馆、容量、地点可用；`4 000`、`3 677` 是有价值答案概念，但需要数值处理；场馆名重音损伤 |
 
 Gold evidence concepts 整体可入图且能保留关键实体、地点、职业和数值信息，但 passage 侧也混入了日期碎片、泛名词、过长 noun phrase 和字符归一化损伤。
+
 
 ## 记录的问题
 

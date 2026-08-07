@@ -6,7 +6,7 @@ Input:
 - data/processed/concepts/passage_concepts.jsonl
 
 Output:
-- reports/results/week4_graph_stats.csv
+- reports/results/week4_graph/week4_graph_stats.csv
 
 The output CSV is a long table with summary graph metrics, top concepts by
 degree, weighted degree, PageRank, and the per-passage concept-count
@@ -123,7 +123,7 @@ def add_top_concept_rows(rows, section, metric, concept_scores):
     """Append ranked concept-score rows to the output table."""
     for rank, (concept, value) in enumerate(concept_scores, start=1):
         if isinstance(value, float):
-            value = f"{value:.12f}"
+            value = f"{value:.6f}"
 
         rows.append(
             {
@@ -202,7 +202,7 @@ def parse_args():
     )
     parser.add_argument(
         "--output",
-        default="reports/results/week4_graph_stats.csv",
+        default="reports/results/week4_graph/week4_graph_stats.csv",
         help="Output CSV path for graph statistics.",
     )
     parser.add_argument(

@@ -9,3 +9,6 @@ en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_
 
 # Used by src/graph/build_graph.py.
 networkx==3.6.1
+
+# Used by tests.
+pytest==9.1.1

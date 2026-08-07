@@ -8,7 +8,7 @@ Input:
 - data/processed/concept_graph.pkl
 
 Output:
-- reports/results/week4_coverage_stats.csv
+- reports/results/week4_graph/week4_coverage_stats.csv
 
 One-hop recall is computed with reachable concepts defined as:
 query concepts that are graph nodes union their graph neighbors. Therefore,
@@ -164,7 +164,7 @@ def parse_args():
     )
     parser.add_argument(
         "--output",
-        default="reports/results/week4_coverage_stats.csv",
+        default="reports/results/week4_graph/week4_coverage_stats.csv",
         help="Output CSV path for coverage diagnostics.",
     )
 
