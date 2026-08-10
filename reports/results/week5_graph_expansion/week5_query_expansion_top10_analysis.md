@@ -2,8 +2,10 @@
 
 ## 检查范围
 
-- Trace 文件: `data/results/query_expansion_trace_top10.jsonl`
-- 标注文件: `data/results/query_expansion_trace_top10_labeled.jsonl`
+- Trace 机器读取文件: `data/results/query_expansion_trace_top10.jsonl`
+- Trace 可读 Markdown: `reports/results/week5_graph_expansion/query_expansion_trace_top10_readable.md`
+- 标注机器读取文件: `data/results/query_expansion_trace_top10_labeled.jsonl`
+- 标注可读 Markdown: `reports/results/week5_graph_expansion/query_expansion_trace_top10_labeled_readable.md`
 - Query 范围: `q_000001` 到 `q_000010`
 - 判断依据: `expanded_concepts` 是否命中或接近 `gold_concepts` 中的 K/U 概念，尤其是关键桥接实体、答案实体、答案属性和 comparison 判断属性。
 

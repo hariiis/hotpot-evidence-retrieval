@@ -175,6 +175,29 @@ def print_traces(traces):
         print(json.dumps(trace, ensure_ascii=False, indent=2))
 
 
+def write_markdown_traces(traces, output_path):
+    """Write pretty-printed traces to a Markdown file for manual review."""
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    lines = ["# Query Expansion Trace", ""]
+
+    for index, trace in enumerate(traces, start=1):
+        query_id = trace.get("query_id", f"record_{index}")
+        lines.extend(
+            [
+                f"## {index}. {query_id}",
+                "",
+                "```json",
+                json.dumps(trace, ensure_ascii=False, indent=2),
+                "```",
+                "",
+            ]
+        )
+
+    output_path.write_text("\n".join(lines), encoding="utf-8")
+
+
 def parse_args():
     """Parse command-line options for query expansion inspection."""
     parser = argparse.ArgumentParser()
@@ -226,6 +249,11 @@ def parse_args():
         default=None,
         help="Optional JSONL output path for saved expansion traces.",
     )
+    parser.add_argument(
+        "--markdown_output",
+        default=None,
+        help="Optional Markdown output path for pretty-printed manual traces.",
+    )
 
     return parser.parse_args()
 
@@ -258,6 +286,11 @@ def main():
         write_jsonl(traces, args.output)
         print()
         print(f"Wrote expansion traces to {args.output}")
+
+    if args.markdown_output:
+        write_markdown_traces(traces, args.markdown_output)
+        print()
+        print(f"Wrote readable expansion traces to {args.markdown_output}")
 
 
 if __name__ == "__main__":
