@@ -1,0 +1,1750 @@
+{
+  "label_legend": {
+    "K": "Key：关键概念，承担推理链中的核心实体、答案、答案属性或比较依据。",
+    "U": "Useful：有帮助的概念，可辅助定位 gold passage，但不是推理核心。",
+    "N": "Noise：噪声或弱相关概念，通常是泛词、日期碎片、背景词，容易干扰检索。"
+  }
+}
+
+
+{
+  "query_id": "q_000001",
+  "type": "comparison",
+  "original_query": "Were Scott Derrickson and Ed Wood of the same nationality?",
+  "gold_passage_ids": [
+    "Scott Derrickson::0",
+    "Ed Wood::0"
+  ],
+  "answer": "yes",
+  "query_concepts": [
+    "scott derrickson",
+    "ed wood",
+    "nationality"
+  ],
+  "matched_graph_nodes": [
+    "scott derrickson",
+    "ed wood",
+    "nationality"
+  ],
+  "unmatched_query_concepts": [],
+  "expanded_concepts": [
+    {
+      "concept": "american",
+      "score": 3,
+      "hop": 1
+    },
+    {
+      "concept": "c robert cargill",
+      "score": 2,
+      "hop": 1
+    },
+    {
+      "concept": "film",
+      "score": 2,
+      "hop": 1
+    },
+    {
+      "concept": "1960s",
+      "score": 1,
+      "hop": 1
+    },
+    {
+      "concept": "1970s",
+      "score": 1,
+      "hop": 1
+    }
+  ],
+  "expanded_query": "Were Scott Derrickson and Ed Wood of the same nationality? american c robert cargill film 1960s 1970s",
+  "gold_concepts": [
+    {
+      "concept": "scott derrickson",
+      "label": "K",
+      "reason": "比较对象之一，支撑 Scott Derrickson 侧证据。"
+    },
+    {
+      "concept": "edward davis wood jr",
+      "label": "K",
+      "reason": "Ed Wood 的规范姓名，支撑 Ed Wood 侧证据。"
+    },
+    {
+      "concept": "american",
+      "label": "K",
+      "reason": "同国籍判断的核心属性。"
+    },
+    {
+      "concept": "july 16 1966",
+      "label": "U",
+      "reason": "身份定位日期，但不直接回答国籍。"
+    },
+    {
+      "concept": "american director",
+      "label": "U",
+      "reason": "包含国籍和职业，辅助定位 Scott Derrickson。"
+    },
+    {
+      "concept": "screenwriter",
+      "label": "U",
+      "reason": "人物职业背景，辅助定位但不是核心。"
+    },
+    {
+      "concept": "producer",
+      "label": "U",
+      "reason": "人物职业背景，辅助定位但不是核心。"
+    },
+    {
+      "concept": "october 10 1924",
+      "label": "U",
+      "reason": "身份定位日期，但不直接回答国籍。"
+    },
+    {
+      "concept": "december 10 1978",
+      "label": "U",
+      "reason": "身份定位日期，但不直接回答国籍。"
+    },
+    {
+      "concept": "american filmmaker",
+      "label": "U",
+      "reason": "包含国籍和职业，辅助定位 Ed Wood。"
+    },
+    {
+      "concept": "actor",
+      "label": "U",
+      "reason": "人物职业背景，辅助定位但不是核心。"
+    },
+    {
+      "concept": "writer",
+      "label": "U",
+      "reason": "人物职业背景，辅助定位但不是核心。"
+    },
+    {
+      "concept": "director",
+      "label": "U",
+      "reason": "人物职业背景，辅助定位但不是核心。"
+    },
+    {
+      "concept": "october",
+      "label": "N",
+      "reason": "月份碎片，检索区分度低。"
+    },
+    {
+      "concept": "december",
+      "label": "N",
+      "reason": "月份碎片，检索区分度低。"
+    }
+  ],
+  "query_gold_overlap": [
+    "scott derrickson"
+  ],
+  "expanded_gold_overlap": [
+    "american"
+  ]
+}
+
+
+{
+  "query_id": "q_000002",
+  "type": "bridge",
+  "original_query": "What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tell?",
+  "gold_passage_ids": [
+    "Kiss and Tell (1945 film)::0",
+    "Shirley Temple::0",
+    "Shirley Temple::1"
+  ],
+  "answer": "Chief of Protocol",
+  "query_concepts": [
+    "corliss archer",
+    "kiss tell",
+    "government position",
+    "woman",
+    "film",
+    "kiss"
+  ],
+  "matched_graph_nodes": [
+    "corliss archer",
+    "kiss tell",
+    "woman",
+    "film",
+    "kiss"
+  ],
+  "unmatched_query_concepts": [
+    "government position"
+  ],
+  "expanded_concepts": [
+    {
+      "concept": "1945",
+      "score": 4,
+      "hop": 1
+    },
+    {
+      "concept": "american",
+      "score": 4,
+      "hop": 1
+    },
+    {
+      "concept": "life",
+      "score": 4,
+      "hop": 1
+    },
+    {
+      "concept": "soundtrack",
+      "score": 4,
+      "hop": 1
+    },
+    {
+      "concept": "book",
+      "score": 3,
+      "hop": 1
+    }
+  ],
+  "expanded_query": "What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tell? 1945 american life soundtrack book",
+  "gold_concepts": [
+    {
+      "concept": "corliss archer",
+      "label": "K",
+      "reason": "题目中的角色线索，连接电影证据。"
+    },
+    {
+      "concept": "shirley temple",
+      "label": "K",
+      "reason": "关键桥接人物，从角色/电影连接到政府职位。"
+    },
+    {
+      "concept": "shirley temple black",
+      "label": "K",
+      "reason": "Shirley Temple 的规范姓名，连接到职位证据。"
+    },
+    {
+      "concept": "chief",
+      "label": "K",
+      "reason": "答案 Chief of Protocol 的核心组成。"
+    },
+    {
+      "concept": "protocol",
+      "label": "K",
+      "reason": "答案 Chief of Protocol 的核心组成。"
+    },
+    {
+      "concept": "kiss",
+      "label": "U",
+      "reason": "电影标题拆分词，帮助定位电影但有噪声。"
+    },
+    {
+      "concept": "tell",
+      "label": "U",
+      "reason": "电影标题拆分词，帮助定位电影但有噪声。"
+    },
+    {
+      "concept": "1945",
+      "label": "U",
+      "reason": "电影年份，辅助定位 Kiss and Tell。"
+    },
+    {
+      "concept": "17 year old",
+      "label": "U",
+      "reason": "电影句子中的人物描述，辅助定位 Shirley Temple。"
+    },
+    {
+      "concept": "1945 american comedy film",
+      "label": "U",
+      "reason": "电影类型短语，辅助定位但较长。"
+    },
+    {
+      "concept": "17 year old shirley temple",
+      "label": "U",
+      "reason": "包含关键人物，辅助定位电影证据。"
+    },
+    {
+      "concept": "american actress",
+      "label": "U",
+      "reason": "Shirley Temple 身份背景，辅助定位。"
+    },
+    {
+      "concept": "diplomat",
+      "label": "U",
+      "reason": "与政府职位相关的人物身份。"
+    },
+    {
+      "concept": "united states ambassador",
+      "label": "U",
+      "reason": "政府职位背景，相关但不是目标答案。"
+    },
+    {
+      "concept": "child actress",
+      "label": "U",
+      "reason": "人物身份背景，辅助定位。"
+    },
+    {
+      "concept": "american",
+      "label": "N",
+      "reason": "高频国籍词，对本题桥接帮助弱。"
+    },
+    {
+      "concept": "april 23 1928",
+      "label": "N",
+      "reason": "出生日期背景，不支撑职位推理。"
+    },
+    {
+      "concept": "february 10 2014",
+      "label": "N",
+      "reason": "死亡日期背景，不支撑职位推理。"
+    },
+    {
+      "concept": "hollywood",
+      "label": "N",
+      "reason": "背景地点/行业词，非关键。"
+    },
+    {
+      "concept": "1935",
+      "label": "N",
+      "reason": "年份背景，非关键。"
+    },
+    {
+      "concept": "april",
+      "label": "N",
+      "reason": "月份碎片，检索区分度低。"
+    },
+    {
+      "concept": "february",
+      "label": "N",
+      "reason": "月份碎片，检索区分度低。"
+    },
+    {
+      "concept": "singer",
+      "label": "N",
+      "reason": "人物职业背景，和政府职位无关。"
+    },
+    {
+      "concept": "dancer",
+      "label": "N",
+      "reason": "人物职业背景，和政府职位无关。"
+    },
+    {
+      "concept": "businesswoman",
+      "label": "N",
+      "reason": "人物职业背景，和目标职位关系弱。"
+    },
+    {
+      "concept": "hollywood's number box office draw",
+      "label": "N",
+      "reason": "过细背景短语，非推理核心。"
+    },
+    {
+      "concept": "united states",
+      "label": "N",
+      "reason": "高频地点词，容易引入噪声。"
+    },
+    {
+      "concept": "ghana",
+      "label": "N",
+      "reason": "职位履历背景，非目标答案。"
+    },
+    {
+      "concept": "czechoslovakia",
+      "label": "N",
+      "reason": "职位履历背景，非目标答案。"
+    },
+    {
+      "concept": "adult",
+      "label": "N",
+      "reason": "泛词，检索价值低。"
+    }
+  ],
+  "query_gold_overlap": [
+    "corliss archer",
+    "kiss"
+  ],
+  "expanded_gold_overlap": [
+    "1945",
+    "american"
+  ]
+}
+
+
+{
+  "query_id": "q_000003",
+  "type": "bridge",
+  "original_query": "What science fantasy young adult series, told in first person, has a set of companion books narrating the stories of enslaved worlds and alien species?",
+  "gold_passage_ids": [
+    "The Hork-Bajir Chronicles::0",
+    "The Hork-Bajir Chronicles::1",
+    "The Hork-Bajir Chronicles::2",
+    "Animorphs::0",
+    "Animorphs::1"
+  ],
+  "answer": "Animorphs",
+  "query_concepts": [
+    "science fantasy young adult series",
+    "person",
+    "set",
+    "companion books",
+    "stories",
+    "enslaved worlds",
+    "alien species"
+  ],
+  "matched_graph_nodes": [
+    "person",
+    "set",
+    "companion books",
+    "stories"
+  ],
+  "unmatched_query_concepts": [
+    "science fantasy young adult series",
+    "enslaved worlds",
+    "alien species"
+  ],
+  "expanded_concepts": [
+    {
+      "concept": "assistant secretaries",
+      "score": 2,
+      "hop": 1
+    },
+    {
+      "concept": "books",
+      "score": 2,
+      "hop": 1
+    },
+    {
+      "concept": "united states",
+      "score": 2,
+      "hop": 1
+    },
+    {
+      "concept": "1917",
+      "score": 1,
+      "hop": 1
+    },
+    {
+      "concept": "2011",
+      "score": 1,
+      "hop": 1
+    }
+  ],
+  "expanded_query": "What science fantasy young adult series, told in first person, has a set of companion books narrating the stories of enslaved worlds and alien species? assistant secretaries books united states 1917 2011",
+  "gold_concepts": [
+    {
+      "concept": "hork bajir chronicles",
+      "label": "K",
+      "reason": "关键 companion book，连接题目描述到目标系列。"
+    },
+    {
+      "concept": "second companion book",
+      "label": "K",
+      "reason": "题目中 companion books 关系的直接证据。"
+    },
+    {
+      "concept": "animorphs series",
+      "label": "K",
+      "reason": "目标系列的上下文表达。"
+    },
+    {
+      "concept": "animorphs",
+      "label": "K",
+      "reason": "答案实体。"
+    },
+    {
+      "concept": "science fantasy series",
+      "label": "K",
+      "reason": "题目类型约束的直接证据。"
+    },
+    {
+      "concept": "young adult books",
+      "label": "K",
+      "reason": "题目 young adult 约束的直接证据。"
+    },
+    {
+      "concept": "k applegate",
+      "label": "U",
+      "reason": "作者线索，辅助定位 Animorphs 相关证据。"
+    },
+    {
+      "concept": "ellimist chronicles",
+      "label": "U",
+      "reason": "同系列 companion book，辅助定位但不是目标。"
+    },
+    {
+      "concept": "andalite chronicles",
+      "label": "U",
+      "reason": "同系列 companion book，辅助定位但不是目标。"
+    },
+    {
+      "concept": "tobias",
+      "label": "U",
+      "reason": "系列内角色，辅助定位但非题目核心。"
+    },
+    {
+      "concept": "jara hamee",
+      "label": "U",
+      "reason": "Hork-Bajir 相关专名，辅助定位。"
+    },
+    {
+      "concept": "yeerks",
+      "label": "U",
+      "reason": "Animorphs 世界观专名，辅助定位。"
+    },
+    {
+      "concept": "hork bajir",
+      "label": "U",
+      "reason": "作品相关物种/专名，辅助定位。"
+    },
+    {
+      "concept": "aldrea",
+      "label": "U",
+      "reason": "Hork-Bajir 相关角色，辅助定位。"
+    },
+    {
+      "concept": "andalite",
+      "label": "U",
+      "reason": "Animorphs 世界观专名，辅助定位。"
+    },
+    {
+      "concept": "dak hamee",
+      "label": "U",
+      "reason": "Hork-Bajir 相关角色，辅助定位。"
+    },
+    {
+      "concept": "free hork bajir",
+      "label": "U",
+      "reason": "作品相关短语，辅助定位。"
+    },
+    {
+      "concept": "katherine applegate",
+      "label": "U",
+      "reason": "作者实体，辅助定位。"
+    },
+    {
+      "concept": "michael grant",
+      "label": "U",
+      "reason": "作者实体，辅助定位。"
+    },
+    {
+      "concept": "scholastic",
+      "label": "U",
+      "reason": "出版方，辅助定位但非推理核心。"
+    },
+    {
+      "concept": "series",
+      "label": "U",
+      "reason": "题目类型相关，但过泛。"
+    },
+    {
+      "concept": "companion",
+      "label": "U",
+      "reason": "题目关系相关，但单词过泛。"
+    },
+    {
+      "concept": "second",
+      "label": "N",
+      "reason": "序数碎片，检索噪声大。"
+    },
+    {
+      "concept": "23",
+      "label": "N",
+      "reason": "数字碎片，检索价值低。"
+    },
+    {
+      "concept": "pretender",
+      "label": "N",
+      "reason": "上下文词，和问题核心关系弱。"
+    },
+    {
+      "concept": "respect",
+      "label": "N",
+      "reason": "泛词，检索价值低。"
+    },
+    {
+      "concept": "continuity",
+      "label": "N",
+      "reason": "背景词，非核心。"
+    },
+    {
+      "concept": "place",
+      "label": "N",
+      "reason": "泛词，检索价值低。"
+    },
+    {
+      "concept": "book",
+      "label": "N",
+      "reason": "高频泛词，容易误导。"
+    },
+    {
+      "concept": "events",
+      "label": "N",
+      "reason": "泛词，检索价值低。"
+    },
+    {
+      "concept": "story",
+      "label": "N",
+      "reason": "泛词，检索价值低。"
+    },
+    {
+      "concept": "time",
+      "label": "N",
+      "reason": "泛词，检索价值低。"
+    },
+    {
+      "concept": "valley",
+      "label": "N",
+      "reason": "背景地点词，非核心。"
+    },
+    {
+      "concept": "world",
+      "label": "N",
+      "reason": "泛词，检索价值低。"
+    },
+    {
+      "concept": "invasion",
+      "label": "N",
+      "reason": "剧情背景词，非核心。"
+    },
+    {
+      "concept": "husband",
+      "label": "N",
+      "reason": "作者背景词，非核心。"
+    },
+    {
+      "concept": "person",
+      "label": "N",
+      "reason": "泛词，检索价值低。"
+    },
+    {
+      "concept": "main characters",
+      "label": "N",
+      "reason": "泛短语，非核心。"
+    },
+    {
+      "concept": "turns",
+      "label": "N",
+      "reason": "泛词，检索价值低。"
+    },
+    {
+      "concept": "books",
+      "label": "N",
+      "reason": "高频泛词，overlap 但不代表有效扩展。"
+    },
+    {
+      "concept": "perspectives",
+      "label": "N",
+      "reason": "叙述背景词，非核心。"
+    }
+  ],
+  "query_gold_overlap": [
+    "person"
+  ],
+  "expanded_gold_overlap": [
+    "books"
+  ]
+}
+
+
+{
+  "query_id": "q_000004",
+  "type": "comparison",
+  "original_query": "Are the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?",
+  "gold_passage_ids": [
+    "Laleli Mosque::0",
+    "Esma Sultan Mansion::0"
+  ],
+  "answer": "no",
+  "query_concepts": [
+    "laleli mosque",
+    "esma",
+    "sultan mansion",
+    "laleli mosque esma sultan mansion",
+    "neighborhood"
+  ],
+  "matched_graph_nodes": [
+    "laleli mosque",
+    "esma"
+  ],
+  "unmatched_query_concepts": [
+    "sultan mansion",
+    "laleli mosque esma sultan mansion",
+    "neighborhood"
+  ],
+  "expanded_concepts": [
+    {
+      "concept": "esma sultan",
+      "score": 3,
+      "hop": 1
+    },
+    {
+      "concept": "ottoman",
+      "score": 3,
+      "hop": 1
+    },
+    {
+      "concept": "18th century",
+      "score": 1,
+      "hop": 1
+    },
+    {
+      "concept": "18th century ottoman imperial mosque",
+      "score": 1,
+      "hop": 1
+    },
+    {
+      "concept": "bridegroom",
+      "score": 1,
+      "hop": 1
+    }
+  ],
+  "expanded_query": "Are the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood? esma sultan ottoman 18th century 18th century ottoman imperial mosque bridegroom",
+  "gold_concepts": [
+    {
+      "concept": "laleli mosque",
+      "label": "K",
+      "reason": "比较对象之一。"
+    },
+    {
+      "concept": "esma sultan mansion",
+      "label": "K",
+      "reason": "比较对象之一。"
+    },
+    {
+      "concept": "fatih",
+      "label": "K",
+      "reason": "Laleli Mosque 所在行政区/邻里判断关键。"
+    },
+    {
+      "concept": "ortak y neighborhood",
+      "label": "K",
+      "reason": "Esma Sultan Mansion 所在 neighborhood，判断 no 的关键。"
+    },
+    {
+      "concept": "laleli fatih istanbul turkey",
+      "label": "K",
+      "reason": "包含 Laleli Mosque 的具体地点链。"
+    },
+    {
+      "concept": "bosphorus ortak y",
+      "label": "K",
+      "reason": "包含 Ortakoy 地点信息，虽有归一化损伤但关键。"
+    },
+    {
+      "concept": "laleli",
+      "label": "U",
+      "reason": "地点名，辅助定位 Laleli Mosque。"
+    },
+    {
+      "concept": "istanbul",
+      "label": "U",
+      "reason": "共同城市背景，辅助定位但不能判断同 neighborhood。"
+    },
+    {
+      "concept": "turkey",
+      "label": "U",
+      "reason": "共同国家背景，辅助定位但不能判断同 neighborhood。"
+    },
+    {
+      "concept": "esma sultan",
+      "label": "U",
+      "reason": "Mansion 名称组成/人物名，辅助定位。"
+    },
+    {
+      "concept": "laleli camii",
+      "label": "U",
+      "reason": "Laleli Mosque 别名，辅助定位。"
+    },
+    {
+      "concept": "tulip mosque",
+      "label": "U",
+      "reason": "Laleli Mosque 别名，辅助定位。"
+    },
+    {
+      "concept": "18th century",
+      "label": "U",
+      "reason": "建筑背景，辅助定位但非 neighborhood。"
+    },
+    {
+      "concept": "ottoman",
+      "label": "U",
+      "reason": "建筑背景，辅助定位但非 neighborhood。"
+    },
+    {
+      "concept": "18th century ottoman imperial mosque",
+      "label": "U",
+      "reason": "建筑类型短语，辅助定位。"
+    },
+    {
+      "concept": "esma sultan yal s",
+      "label": "U",
+      "reason": "Mansion 别名但有归一化损伤。"
+    },
+    {
+      "concept": "historical yal",
+      "label": "U",
+      "reason": "建筑类型背景，辅助定位。"
+    },
+    {
+      "concept": "waterside mansion",
+      "label": "U",
+      "reason": "建筑类型背景，辅助定位。"
+    },
+    {
+      "concept": "bosphorus",
+      "label": "U",
+      "reason": "地点背景，辅助定位。"
+    },
+    {
+      "concept": "turkish",
+      "label": "N",
+      "reason": "语言/国籍泛词，非核心。"
+    },
+    {
+      "concept": "english",
+      "label": "N",
+      "reason": "语言词，非核心。"
+    },
+    {
+      "concept": "today",
+      "label": "N",
+      "reason": "时间泛词，检索价值低。"
+    },
+    {
+      "concept": "original owner",
+      "label": "N",
+      "reason": "背景词，非 neighborhood 判断核心。"
+    },
+    {
+      "concept": "cultural center",
+      "label": "N",
+      "reason": "当前用途背景，非核心。"
+    }
+  ],
+  "query_gold_overlap": [
+    "laleli mosque"
+  ],
+  "expanded_gold_overlap": [
+    "esma sultan",
+    "ottoman",
+    "18th century",
+    "18th century ottoman imperial mosque"
+  ]
+}
+
+
+{
+  "query_id": "q_000005",
+  "type": "bridge",
+  "original_query": "The director of the romantic comedy \"Big Stone Gap\" is based in what New York city?",
+  "gold_passage_ids": [
+    "Big Stone Gap (film)::0",
+    "Adriana Trigiani::0"
+  ],
+  "answer": "Greenwich Village, New York City",
+  "query_concepts": [
+    "big stone gap",
+    "new york",
+    "director",
+    "romantic comedy",
+    "new york city"
+  ],
+  "matched_graph_nodes": [
+    "big stone gap",
+    "new york",
+    "director",
+    "new york city"
+  ],
+  "unmatched_query_concepts": [
+    "romantic comedy"
+  ],
+  "expanded_concepts": [
+    {
+      "concept": "american",
+      "score": 10,
+      "hop": 1
+    },
+    {
+      "concept": "united states",
+      "score": 8,
+      "hop": 1
+    },
+    {
+      "concept": "national intelligence",
+      "score": 5,
+      "hop": 1
+    },
+    {
+      "concept": "paris",
+      "score": 5,
+      "hop": 1
+    },
+    {
+      "concept": "producer",
+      "score": 5,
+      "hop": 1
+    }
+  ],
+  "expanded_query": "The director of the romantic comedy \"Big Stone Gap\" is based in what New York city? american united states national intelligence paris producer",
+  "gold_concepts": [
+    {
+      "concept": "big stone gap",
+      "label": "K",
+      "reason": "题目给定电影，推理起点。"
+    },
+    {
+      "concept": "adriana trigiani",
+      "label": "K",
+      "reason": "关键桥接人物，电影导演。"
+    },
+    {
+      "concept": "greenwich village",
+      "label": "K",
+      "reason": "答案地点核心。"
+    },
+    {
+      "concept": "new york city",
+      "label": "K",
+      "reason": "答案地点组成。"
+    },
+    {
+      "concept": "film director",
+      "label": "K",
+      "reason": "连接 director 约束到 Adriana Trigiani。"
+    },
+    {
+      "concept": "2014 american drama romantic comedy film",
+      "label": "U",
+      "reason": "电影类型短语，辅助定位 Big Stone Gap。"
+    },
+    {
+      "concept": "donna gigliotti",
+      "label": "U",
+      "reason": "制作人背景，辅助定位但非核心。"
+    },
+    {
+      "concept": "altar identity studios",
+      "label": "U",
+      "reason": "制作公司背景，辅助定位但非核心。"
+    },
+    {
+      "concept": "media society",
+      "label": "U",
+      "reason": "制作公司背景，辅助定位但非核心。"
+    },
+    {
+      "concept": "italian american best selling author",
+      "label": "U",
+      "reason": "人物身份背景，辅助定位 Adriana Trigiani。"
+    },
+    {
+      "concept": "television writer",
+      "label": "U",
+      "reason": "人物职业背景，辅助定位。"
+    },
+    {
+      "concept": "entrepreneur",
+      "label": "U",
+      "reason": "人物职业背景，辅助定位。"
+    },
+    {
+      "concept": "2014",
+      "label": "N",
+      "reason": "年份背景，非核心。"
+    },
+    {
+      "concept": "american",
+      "label": "N",
+      "reason": "高频泛词，对本题帮助弱。"
+    },
+    {
+      "concept": "subsidiary",
+      "label": "N",
+      "reason": "公司关系背景，非核心。"
+    },
+    {
+      "concept": "italian",
+      "label": "N",
+      "reason": "身份背景碎片，非核心。"
+    },
+    {
+      "concept": "sixteen",
+      "label": "N",
+      "reason": "数字碎片，非核心。"
+    },
+    {
+      "concept": "sixteen books",
+      "label": "N",
+      "reason": "作品数量背景，非核心。"
+    }
+  ],
+  "query_gold_overlap": [
+    "big stone gap",
+    "new york city"
+  ],
+  "expanded_gold_overlap": [
+    "american"
+  ]
+}
+
+
+{
+  "query_id": "q_000006",
+  "type": "bridge",
+  "original_query": "2014 S/S is the debut album of a South Korean boy group that was formed by who?",
+  "gold_passage_ids": [
+    "2014 S/S::0",
+    "Winner (band)::0"
+  ],
+  "answer": "YG Entertainment",
+  "query_concepts": [
+    "s s",
+    "south korean",
+    "2014 s s",
+    "debut album",
+    "south korean boy group"
+  ],
+  "matched_graph_nodes": [
+    "s s",
+    "south korean",
+    "2014 s s",
+    "debut album",
+    "south korean boy group"
+  ],
+  "unmatched_query_concepts": [],
+  "expanded_concepts": [
+    {
+      "concept": "2013",
+      "score": 4,
+      "hop": 1
+    },
+    {
+      "concept": "2014",
+      "score": 4,
+      "hop": 1
+    },
+    {
+      "concept": "2015",
+      "score": 4,
+      "hop": 1
+    },
+    {
+      "concept": "hangul",
+      "score": 4,
+      "hop": 1
+    },
+    {
+      "concept": "korean",
+      "score": 4,
+      "hop": 1
+    }
+  ],
+  "expanded_query": "2014 S/S is the debut album of a South Korean boy group that was formed by who? 2013 2014 2015 hangul korean",
+  "gold_concepts": [
+    {
+      "concept": "s s",
+      "label": "K",
+      "reason": "专辑标题归一化形式，推理起点。"
+    },
+    {
+      "concept": "2014 s s",
+      "label": "K",
+      "reason": "完整专辑标题，推理起点。"
+    },
+    {
+      "concept": "debut album",
+      "label": "K",
+      "reason": "题目关系约束，连接专辑和组合。"
+    },
+    {
+      "concept": "south korean group winner",
+      "label": "K",
+      "reason": "从专辑连接到组合 Winner 的关键短语。"
+    },
+    {
+      "concept": "winner",
+      "label": "K",
+      "reason": "关键桥接组合实体。"
+    },
+    {
+      "concept": "yg entertainment",
+      "label": "K",
+      "reason": "答案实体。"
+    },
+    {
+      "concept": "south korean boy group",
+      "label": "K",
+      "reason": "题目组合类型约束。"
+    },
+    {
+      "concept": "south korean",
+      "label": "U",
+      "reason": "组合国家背景，辅助定位但较泛。"
+    },
+    {
+      "concept": "2013",
+      "label": "U",
+      "reason": "formed year，辅助定位 formed by 句子。"
+    },
+    {
+      "concept": "2014",
+      "label": "U",
+      "reason": "debut year，辅助定位但不是答案。"
+    },
+    {
+      "concept": "hangul",
+      "label": "N",
+      "reason": "文字系统背景，非 formed by 推理核心。"
+    }
+  ],
+  "query_gold_overlap": [
+    "s s",
+    "south korean",
+    "2014 s s",
+    "debut album",
+    "south korean boy group"
+  ],
+  "expanded_gold_overlap": [
+    "2013",
+    "2014",
+    "hangul"
+  ]
+}
+
+
+{
+  "query_id": "q_000007",
+  "type": "bridge",
+  "original_query": "Who was known by his stage name Aladin and helped organizations improve their performance as a consultant?",
+  "gold_passage_ids": [
+    "Eenasul Fateh::0",
+    "Management consulting::0"
+  ],
+  "answer": "Eenasul Fateh",
+  "query_concepts": [
+    "aladin",
+    "stage",
+    "organizations",
+    "performance",
+    "consultant"
+  ],
+  "matched_graph_nodes": [
+    "aladin",
+    "stage",
+    "organizations",
+    "performance",
+    "consultant"
+  ],
+  "unmatched_query_concepts": [],
+  "expanded_concepts": [
+    {
+      "concept": "american",
+      "score": 4,
+      "hop": 1
+    },
+    {
+      "concept": "record producer",
+      "score": 3,
+      "hop": 1
+    },
+    {
+      "concept": "23 1977",
+      "score": 2,
+      "hop": 1
+    },
+    {
+      "concept": "3 april 1959",
+      "score": 2,
+      "hop": 1
+    },
+    {
+      "concept": "album",
+      "score": 2,
+      "hop": 1
+    }
+  ],
+  "expanded_query": "Who was known by his stage name Aladin and helped organizations improve their performance as a consultant? american record producer 23 1977 3 april 1959 album",
+  "gold_concepts": [
+    {
+      "concept": "eenasul fateh",
+      "label": "K",
+      "reason": "答案人物。"
+    },
+    {
+      "concept": "aladin",
+      "label": "K",
+      "reason": "题目 stage name 线索，连接到答案人物。"
+    },
+    {
+      "concept": "international management consultant",
+      "label": "K",
+      "reason": "题目 consultant 线索的直接证据。"
+    },
+    {
+      "concept": "management consulting",
+      "label": "K",
+      "reason": "解释 organizations improve performance 的关键领域概念。"
+    },
+    {
+      "concept": "organizations",
+      "label": "K",
+      "reason": "题目线索，与 management consulting 证据直接重合。"
+    },
+    {
+      "concept": "performance",
+      "label": "K",
+      "reason": "题目线索，与 management consulting 证据直接重合。"
+    },
+    {
+      "concept": "stage",
+      "label": "U",
+      "reason": "stage name 关系词，辅助连接但较泛。"
+    },
+    {
+      "concept": "3 april 1959",
+      "label": "U",
+      "reason": "人物身份定位日期，非核心。"
+    },
+    {
+      "concept": "bangladeshi british cultural practitioner",
+      "label": "U",
+      "reason": "人物身份背景，辅助定位。"
+    },
+    {
+      "concept": "existing organizational problems",
+      "label": "U",
+      "reason": "management consulting 定义中的相关短语。"
+    },
+    {
+      "concept": "improvement",
+      "label": "U",
+      "reason": "management consulting 定义中的相关词。"
+    },
+    {
+      "concept": "analysis",
+      "label": "U",
+      "reason": "management consulting 定义背景，辅助但较泛。"
+    },
+    {
+      "concept": "development",
+      "label": "U",
+      "reason": "management consulting 定义背景，辅助但较泛。"
+    },
+    {
+      "concept": "plans",
+      "label": "U",
+      "reason": "management consulting 定义背景，辅助但较泛。"
+    },
+    {
+      "concept": "bengali",
+      "label": "N",
+      "reason": "语言背景，非核心。"
+    },
+    {
+      "concept": "bangladeshi",
+      "label": "N",
+      "reason": "国籍背景，非核心。"
+    },
+    {
+      "concept": "magician",
+      "label": "N",
+      "reason": "人物职业背景，但和题目 consultant 关系弱。"
+    },
+    {
+      "concept": "live artist",
+      "label": "N",
+      "reason": "人物职业背景，但和题目 consultant 关系弱。"
+    },
+    {
+      "concept": "practice",
+      "label": "N",
+      "reason": "泛词，检索价值低。"
+    }
+  ],
+  "query_gold_overlap": [
+    "aladin",
+    "stage",
+    "organizations",
+    "performance"
+  ],
+  "expanded_gold_overlap": [
+    "3 april 1959"
+  ]
+}
+
+
+{
+  "query_id": "q_000008",
+  "type": "bridge",
+  "original_query": "The arena where the Lewiston Maineiacs played their home games can seat how many people?",
+  "gold_passage_ids": [
+    "Lewiston Maineiacs::1",
+    "Androscoggin Bank Colisée::0"
+  ],
+  "answer": "3,677 seated",
+  "query_concepts": [
+    "arena",
+    "lewiston maineiacs",
+    "home games",
+    "people"
+  ],
+  "matched_graph_nodes": [
+    "arena",
+    "lewiston maineiacs",
+    "home games",
+    "people"
+  ],
+  "unmatched_query_concepts": [],
+  "expanded_concepts": [
+    {
+      "concept": "members",
+      "score": 12,
+      "hop": 1
+    },
+    {
+      "concept": "buffaloes",
+      "score": 8,
+      "hop": 1
+    },
+    {
+      "concept": "boulder",
+      "score": 7,
+      "hop": 1
+    },
+    {
+      "concept": "pac 12 conference",
+      "score": 7,
+      "hop": 1
+    },
+    {
+      "concept": "america east conference",
+      "score": 6,
+      "hop": 1
+    }
+  ],
+  "expanded_query": "The arena where the Lewiston Maineiacs played their home games can seat how many people? members buffaloes boulder pac 12 conference america east conference",
+  "gold_concepts": [
+    {
+      "concept": "androscoggin bank colis e",
+      "label": "K",
+      "reason": "关键场馆实体，虽有重音归一化损伤。"
+    },
+    {
+      "concept": "lewiston colisee",
+      "label": "K",
+      "reason": "场馆别名，连接主场和容量。"
+    },
+    {
+      "concept": "3 677",
+      "label": "K",
+      "reason": "答案数值核心。"
+    },
+    {
+      "concept": "home games",
+      "label": "K",
+      "reason": "连接 Lewiston Maineiacs 到场馆的关系。"
+    },
+    {
+      "concept": "4 000 capacity",
+      "label": "U",
+      "reason": "容量背景，辅助定位场馆句子。"
+    },
+    {
+      "concept": "central maine civic center",
+      "label": "U",
+      "reason": "场馆旧名，辅助定位。"
+    },
+    {
+      "concept": "multi purpose arena",
+      "label": "U",
+      "reason": "场馆类型，辅助定位。"
+    },
+    {
+      "concept": "lewiston",
+      "label": "U",
+      "reason": "地点背景，辅助定位。"
+    },
+    {
+      "concept": "maine",
+      "label": "U",
+      "reason": "地点背景，辅助定位。"
+    },
+    {
+      "concept": "central maine",
+      "label": "U",
+      "reason": "地点/旧名背景，辅助定位。"
+    },
+    {
+      "concept": "4 000",
+      "label": "U",
+      "reason": "总容量数值，相关但不是 seated 答案。"
+    },
+    {
+      "concept": "1958",
+      "label": "N",
+      "reason": "开放年份，非容量问题核心。"
+    },
+    {
+      "concept": "team",
+      "label": "N",
+      "reason": "高频泛词，检索噪声大。"
+    }
+  ],
+  "query_gold_overlap": [
+    "home games"
+  ],
+  "expanded_gold_overlap": []
+}
+
+
+{
+  "query_id": "q_000009",
+  "type": "bridge",
+  "original_query": "Who is older, Annie Morton or Terry Richardson?",
+  "gold_passage_ids": [
+    "Annie Morton::0",
+    "Annie Morton::2",
+    "Terry Richardson::0"
+  ],
+  "answer": "Terry Richardson",
+  "query_concepts": [
+    "annie morton",
+    "terry richardson"
+  ],
+  "matched_graph_nodes": [
+    "annie morton",
+    "terry richardson"
+  ],
+  "unmatched_query_concepts": [],
+  "expanded_concepts": [
+    {
+      "concept": "american",
+      "score": 3,
+      "hop": 1
+    },
+    {
+      "concept": "film",
+      "score": 2,
+      "hop": 1
+    },
+    {
+      "concept": "juergen teller",
+      "score": 2,
+      "hop": 1
+    },
+    {
+      "concept": "marc jacobs",
+      "score": 2,
+      "hop": 1
+    },
+    {
+      "concept": "peter lindbergh",
+      "score": 2,
+      "hop": 1
+    }
+  ],
+  "expanded_query": "Who is older, Annie Morton or Terry Richardson? american film juergen teller marc jacobs peter lindbergh",
+  "gold_concepts": [
+    {
+      "concept": "annie morton",
+      "label": "K",
+      "reason": "比较对象之一。"
+    },
+    {
+      "concept": "terry richardson",
+      "label": "K",
+      "reason": "比较对象之一，也是答案。"
+    },
+    {
+      "concept": "october 8 1970",
+      "label": "K",
+      "reason": "Annie Morton 出生日期，用于年龄比较。"
+    },
+    {
+      "concept": "august 14 1965",
+      "label": "K",
+      "reason": "Terry Richardson 出生日期，用于年龄比较。"
+    },
+    {
+      "concept": "american model",
+      "label": "U",
+      "reason": "Annie Morton 身份背景，辅助定位。"
+    },
+    {
+      "concept": "portrait photographer",
+      "label": "U",
+      "reason": "Terry Richardson 身份背景，辅助定位。"
+    },
+    {
+      "concept": "terrence uncle terry richardson",
+      "label": "U",
+      "reason": "Terry Richardson 全称/别名，辅助定位。"
+    },
+    {
+      "concept": "peter lindbergh",
+      "label": "U",
+      "reason": "摄影师关联背景，辅助定位 Annie Morton 证据。"
+    },
+    {
+      "concept": "juergen teller",
+      "label": "U",
+      "reason": "摄影师关联背景，辅助定位 Annie Morton 证据。"
+    },
+    {
+      "concept": "marc jacobs",
+      "label": "U",
+      "reason": "广告活动背景，辅助定位 Terry Richardson 证据。"
+    },
+    {
+      "concept": "helmut newton",
+      "label": "U",
+      "reason": "摄影师关联背景，辅助定位但非年龄核心。"
+    },
+    {
+      "concept": "annie leibovitz",
+      "label": "U",
+      "reason": "摄影师关联背景，辅助定位但非年龄核心。"
+    },
+    {
+      "concept": "richard avedon",
+      "label": "U",
+      "reason": "摄影师关联背景，辅助定位但非年龄核心。"
+    },
+    {
+      "concept": "paul jasmin",
+      "label": "U",
+      "reason": "摄影师关联背景，辅助定位但非年龄核心。"
+    },
+    {
+      "concept": "mary ellen mark",
+      "label": "U",
+      "reason": "摄影师关联背景，辅助定位但非年龄核心。"
+    },
+    {
+      "concept": "american fashion",
+      "label": "U",
+      "reason": "职业领域背景，辅助定位。"
+    },
+    {
+      "concept": "advertising campaigns",
+      "label": "U",
+      "reason": "职业背景，辅助定位但非年龄核心。"
+    },
+    {
+      "concept": "american",
+      "label": "N",
+      "reason": "高频国籍词，不能判断年龄。"
+    },
+    {
+      "concept": "pennsylvania",
+      "label": "N",
+      "reason": "出生地背景，非年龄比较核心。"
+    },
+    {
+      "concept": "donna karan",
+      "label": "N",
+      "reason": "品牌背景，非核心。"
+    },
+    {
+      "concept": "guerlain",
+      "label": "N",
+      "reason": "品牌背景，非核心。"
+    },
+    {
+      "concept": "chanel",
+      "label": "N",
+      "reason": "品牌背景，非核心。"
+    },
+    {
+      "concept": "harper's bazaar",
+      "label": "N",
+      "reason": "媒体/品牌背景，非核心。"
+    },
+    {
+      "concept": "sports illustrated",
+      "label": "N",
+      "reason": "媒体背景，非核心。"
+    },
+    {
+      "concept": "victoria's secret",
+      "label": "N",
+      "reason": "品牌背景，非核心。"
+    },
+    {
+      "concept": "givenchy",
+      "label": "N",
+      "reason": "品牌背景，非核心。"
+    },
+    {
+      "concept": "aldo",
+      "label": "N",
+      "reason": "品牌背景，非核心。"
+    },
+    {
+      "concept": "supreme",
+      "label": "N",
+      "reason": "品牌背景，非核心。"
+    },
+    {
+      "concept": "sisley",
+      "label": "N",
+      "reason": "品牌背景，非核心。"
+    },
+    {
+      "concept": "tom ford",
+      "label": "N",
+      "reason": "品牌背景，非核心。"
+    },
+    {
+      "concept": "yves saint laurent",
+      "label": "N",
+      "reason": "品牌背景，非核心。"
+    }
+  ],
+  "query_gold_overlap": [
+    "annie morton",
+    "terry richardson"
+  ],
+  "expanded_gold_overlap": [
+    "american",
+    "juergen teller",
+    "marc jacobs",
+    "peter lindbergh"
+  ]
+}
+
+
+{
+  "query_id": "q_000010",
+  "type": "comparison",
+  "original_query": "Are Local H and For Against both from the United States?",
+  "gold_passage_ids": [
+    "Local H::0",
+    "For Against::0"
+  ],
+  "answer": "yes",
+  "query_concepts": [
+    "local h",
+    "united states"
+  ],
+  "matched_graph_nodes": [
+    "local h",
+    "united states"
+  ],
+  "unmatched_query_concepts": [],
+  "expanded_concepts": [
+    {
+      "concept": "united kingdom",
+      "score": 7,
+      "hop": 1
+    },
+    {
+      "concept": "canada",
+      "score": 5,
+      "hop": 1
+    },
+    {
+      "concept": "president",
+      "score": 5,
+      "hop": 1
+    },
+    {
+      "concept": "senate",
+      "score": 5,
+      "hop": 1
+    },
+    {
+      "concept": "virginia",
+      "score": 5,
+      "hop": 1
+    }
+  ],
+  "expanded_query": "Are Local H and For Against both from the United States? united kingdom canada president senate virginia",
+  "gold_concepts": [
+    {
+      "concept": "local h",
+      "label": "K",
+      "reason": "比较对象之一。"
+    },
+    {
+      "concept": "american",
+      "label": "K",
+      "reason": "Local H 来自美国的核心属性表达。"
+    },
+    {
+      "concept": "united states",
+      "label": "K",
+      "reason": "For Against 来自美国的核心属性表达。"
+    },
+    {
+      "concept": "american rock band",
+      "label": "K",
+      "reason": "Local H 国别/类型证据。"
+    },
+    {
+      "concept": "united states post punk dream pop band",
+      "label": "K",
+      "reason": "For Against 国别/类型证据。"
+    },
+    {
+      "concept": "zion",
+      "label": "U",
+      "reason": "Local H 起源地，辅助判断美国。"
+    },
+    {
+      "concept": "illinois",
+      "label": "U",
+      "reason": "Local H 起源州，辅助判断美国。"
+    },
+    {
+      "concept": "lincoln",
+      "label": "U",
+      "reason": "For Against 起源地，辅助判断美国。"
+    },
+    {
+      "concept": "nebraska",
+      "label": "U",
+      "reason": "For Against 起源州，辅助判断美国。"
+    },
+    {
+      "concept": "1987",
+      "label": "U",
+      "reason": "乐队成立年份，辅助定位但非国别核心。"
+    },
+    {
+      "concept": "scott lucas",
+      "label": "N",
+      "reason": "成员名，和是否来自美国无关。"
+    },
+    {
+      "concept": "matt garcia",
+      "label": "N",
+      "reason": "成员名，和是否来自美国无关。"
+    },
+    {
+      "concept": "joe daniels",
+      "label": "N",
+      "reason": "成员名，和是否来自美国无关。"
+    },
+    {
+      "concept": "john sparkman",
+      "label": "N",
+      "reason": "成员名，和是否来自美国无关。"
+    },
+    {
+      "concept": "guitarist",
+      "label": "N",
+      "reason": "职业/角色词，非核心。"
+    },
+    {
+      "concept": "bassist matt garcia",
+      "label": "N",
+      "reason": "成员角色，非核心。"
+    },
+    {
+      "concept": "drummer joe daniels",
+      "label": "N",
+      "reason": "成员角色，非核心。"
+    },
+    {
+      "concept": "lead guitarist john sparkman",
+      "label": "N",
+      "reason": "成员角色，非核心。"
+    }
+  ],
+  "query_gold_overlap": [
+    "local h",
+    "united states"
+  ],
+  "expanded_gold_overlap": []
+}

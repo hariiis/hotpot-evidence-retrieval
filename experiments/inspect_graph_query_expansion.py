@@ -10,6 +10,7 @@ expanded concepts are reasonable.
 import argparse
 import json
 import sys
+from collections import defaultdict
 from pathlib import Path
 
 
@@ -30,15 +31,102 @@ def build_query_concept_map(query_concept_records):
     }
 
 
-def build_expansion_traces(queries, query_concepts, graph, limit, hop, top_n):
+def deduplicate_concepts(concepts):
+    """Remove empty and repeated concepts while preserving order."""
+    seen = set()
+    deduplicated = []
+
+    for concept in concepts:
+        if not concept or concept in seen:
+            continue
+
+        seen.add(concept)
+        deduplicated.append(concept)
+
+    return deduplicated
+
+
+def build_passage_concept_map(passage_concept_records):
+    """Return a passage_id -> deduplicated concepts mapping."""
+    return {
+        record["passage_id"]: deduplicate_concepts(record.get("concepts", []))
+        for record in passage_concept_records
+    }
+
+
+def build_qrels_map(qrel_records):
+    """Return a query_id -> positive gold passage_id list mapping."""
+    qrels = defaultdict(list)
+    seen = defaultdict(set)
+
+    for record in qrel_records:
+        if record.get("relevance", 1) <= 0:
+            continue
+
+        query_id = record["query_id"]
+        passage_id = record["passage_id"]
+
+        if passage_id in seen[query_id]:
+            continue
+
+        seen[query_id].add(passage_id)
+        qrels[query_id].append(passage_id)
+
+    return dict(qrels)
+
+
+def collect_gold_concepts(gold_passage_ids, passage_concepts):
+    """Collect deduplicated concepts from a query's gold passages."""
+    gold_concepts = []
+
+    for passage_id in gold_passage_ids:
+        gold_concepts.extend(passage_concepts.get(passage_id, []))
+
+    return deduplicate_concepts(gold_concepts)
+
+
+def find_expanded_gold_overlap(expanded_concepts, gold_concepts):
+    """Return only expanded concepts that also appear in gold concepts."""
+    gold_concept_set = set(gold_concepts)
+
+    return [
+        item["concept"]
+        for item in expanded_concepts
+        if item["concept"] in gold_concept_set
+    ]
+
+
+def find_query_gold_overlap(query_concepts, gold_concepts):
+    """Return query concepts that also appear in gold concepts."""
+    gold_concept_set = set(gold_concepts)
+
+    return [
+        concept
+        for concept in query_concepts
+        if concept in gold_concept_set
+    ]
+
+
+def build_expansion_traces(
+    queries,
+    query_concepts,
+    graph,
+    limit,
+    hop,
+    top_n,
+    qrels,
+    passage_concepts,
+):
     """Run graph query expansion for the first limit queries."""
     traces = []
 
     for query_record in queries[:limit]:
         query_id = query_record["query_id"]
         concepts = query_concepts.get(query_id, [])
+        gold_passage_ids = qrels.get(query_id, [])
+        gold_concepts = collect_gold_concepts(gold_passage_ids, passage_concepts)
 
-        trace = expand_query(
+        expansion_trace = expand_query(
             query=query_record["query"],
             query_concepts=concepts,
             graph=graph,
@@ -50,8 +138,25 @@ def build_expansion_traces(queries, query_concepts, graph, limit, hop, top_n):
         trace = {
             "query_id": query_id,
             "type": query_record.get("type"),
+            "original_query": expansion_trace["original_query"],
+            "gold_passage_ids": gold_passage_ids,
             "answer": query_record.get("answer"),
-            **trace,
+            "query_concepts": expansion_trace["query_concepts"],
+            "matched_graph_nodes": expansion_trace["matched_graph_nodes"],
+            "unmatched_query_concepts": expansion_trace[
+                "unmatched_query_concepts"
+            ],
+            "expanded_concepts": expansion_trace["expanded_concepts"],
+            "expanded_query": expansion_trace["expanded_query"],
+            "gold_concepts": gold_concepts,
+            "query_gold_overlap": find_query_gold_overlap(
+                expansion_trace["query_concepts"],
+                gold_concepts,
+            ),
+            "expanded_gold_overlap": find_expanded_gold_overlap(
+                expansion_trace["expanded_concepts"],
+                gold_concepts,
+            ),
         }
         traces.append(trace)
 
@@ -82,6 +187,16 @@ def parse_args():
         "--query_concepts",
         default="data/processed/concepts/query_concepts.jsonl",
         help="Input JSONL file with normalized query concepts.",
+    )
+    parser.add_argument(
+        "--passage_concepts",
+        default="data/processed/concepts/passage_concepts.jsonl",
+        help="Input JSONL file with normalized passage concepts.",
+    )
+    parser.add_argument(
+        "--qrels",
+        default="data/processed/hotpotqa/qrels.jsonl",
+        help="Input JSONL file with positive gold passage labels.",
     )
     parser.add_argument(
         "--graph",
@@ -122,6 +237,8 @@ def main():
     queries = load_jsonl(args.queries)
     query_concept_records = load_jsonl(args.query_concepts)
     query_concepts = build_query_concept_map(query_concept_records)
+    passage_concepts = build_passage_concept_map(load_jsonl(args.passage_concepts))
+    qrels = build_qrels_map(load_jsonl(args.qrels))
     graph = load_graph(args.graph)
 
     traces = build_expansion_traces(
@@ -131,6 +248,8 @@ def main():
         limit=args.limit,
         hop=args.hop,
         top_n=args.top_n,
+        qrels=qrels,
+        passage_concepts=passage_concepts,
     )
 
     print_traces(traces)
