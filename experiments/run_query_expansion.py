@@ -23,7 +23,7 @@ sys.path.append(str(PROJECT_ROOT / "src" / "retrieval"))
 sys.path.append(str(PROJECT_ROOT / "src" / "eval"))
 
 from bm25 import BM25Retriever
-from graph_query_expansion import expand_query
+from graph_query_expansion import SUPPORTED_RANKING_STRATEGIES, expand_query
 from metrics import mrr_at_k, ndcg_at_k, recall_at_k
 from utils.file_io import load_graph, load_jsonl, write_csv, write_jsonl
 
@@ -80,6 +80,9 @@ def parse_args():
         parser.error("--top_n must be greater than or equal to 0")
     if args.top_k < 10:
         parser.error("--top_k must be at least 10 to compute @10 metrics")
+    if args.strategy not in SUPPORTED_RANKING_STRATEGIES:
+        supported = "', '".join(sorted(SUPPORTED_RANKING_STRATEGIES))
+        parser.error(f"--strategy must be one of '{supported}'")
 
     return args
 
@@ -87,7 +90,7 @@ def parse_args():
 def build_query_concepts_by_id(query_concept_rows):
     """Return query_id -> normalized query concepts."""
     return {
-        row["query_id"]: row.get("concepts", [])
+        row["query_id"]: row.get("concepts") or []
         for row in query_concept_rows
     }
 

@@ -7,9 +7,16 @@ metric evaluation. The returned trace keeps intermediate expansion decisions
 visible for later case studies and manual inspection.
 """
 
+import math
+
+
 # Keep the default blocklist intentionally empty for the first implementation.
 # Callers can pass blocked_concepts when they want to filter noisy concepts.
 DEFAULT_BLOCKED_CONCEPTS = []
+SUPPORTED_RANKING_STRATEGIES = {
+    "edge_weight",
+    "edge_weight_log_passage_count",
+}
 
 
 def match_query_concepts(query_concepts, graph):
@@ -41,12 +48,7 @@ def match_query_concepts(query_concepts, graph):
     return matched_graph_nodes, unmatched_query_concepts
 
 
-def collect_expansion_candidates(
-    matched_graph_nodes,
-    graph,
-    hop=1,
-    blocked_concepts=None,
-):
+def collect_expansion_candidates(matched_graph_nodes, graph, hop=1, blocked_concepts=None,):
     """
     Collect 1-hop or 2-hop candidate concepts from matched graph nodes.
 
@@ -104,14 +106,18 @@ def collect_expansion_candidates(
     return candidates
 
 
-def rank_expansion_candidates(candidates, strategy="edge_weight"):
+def rank_expansion_candidates(candidates, strategy="edge_weight", graph=None):
     """
     Rank collected expansion candidates.
 
     Args:
         candidates: Candidate dict from collect_expansion_candidates().
-        strategy: Ranking strategy. The first implementation supports only
-            "edge_weight", which sorts by accumulated edge weights.
+        strategy: Ranking strategy. 
+            - "edge_weight" sorts by accumulated edge weights. 
+            - "edge_weight_log_passage_count" divides that score by
+            log(2 + candidate passage_count).
+        graph: NetworkX concept graph. Required for
+            "edge_weight_log_passage_count" to read candidate passage_count.
 
     Returns:
         A list of {"concept": str, "score": float, "hop": int} dictionaries.
@@ -119,13 +125,23 @@ def rank_expansion_candidates(candidates, strategy="edge_weight"):
     Raises:
         ValueError: If strategy is unsupported.
     """
-    if strategy != "edge_weight":
-        raise ValueError("strategy must be 'edge_weight'")
+    if strategy not in SUPPORTED_RANKING_STRATEGIES:
+        supported = "', '".join(sorted(SUPPORTED_RANKING_STRATEGIES))
+        raise ValueError(f"strategy must be one of '{supported}'")
+    if strategy == "edge_weight_log_passage_count" and graph is None:
+        raise ValueError(
+            "graph is required for 'edge_weight_log_passage_count'"
+        )
 
     ranked_candidates = [
         {
             "concept": concept,
-            "score": values["score"],
+            "score": _rank_score(
+                concept=concept,
+                edge_score=values["score"],
+                strategy=strategy,
+                graph=graph,
+            ),
             "hop": values["hop"],
         }
         for concept, values in candidates.items()
@@ -157,15 +173,7 @@ def build_expanded_query(query, expanded_concepts):
     return f"{query} {expansion_text}"
 
 
-def expand_query(
-    query,
-    query_concepts,
-    graph,
-    hop=1,
-    top_n=5,
-    strategy="edge_weight",
-    blocked_concepts=None,
-):
+def expand_query(query, query_concepts, graph, hop=1, top_n=5, strategy="edge_weight", blocked_concepts=None,):
     """
     Expand a query with graph-neighbor concepts and return a full trace.
 
@@ -175,7 +183,8 @@ def expand_query(
         graph: NetworkX concept graph.
         hop: Expansion depth. Use 0 for no expansion, or 1/2 for graph neighbors.
         top_n: Maximum number of concepts to append to the query.
-        strategy: Candidate ranking strategy. Currently only "edge_weight".
+        strategy: Candidate ranking strategy. Supported values are
+            "edge_weight" and "edge_weight_log_passage_count".
         blocked_concepts: Optional set of concepts to filter from expansion.
 
     Returns:
@@ -185,6 +194,7 @@ def expand_query(
     Raises:
         ValueError: If hop is not 0, 1, or 2, or if top_n is negative.
     """
+
     if hop not in {0, 1, 2}:
         raise ValueError("hop must be 0, 1, or 2")
     if top_n < 0:
@@ -215,7 +225,11 @@ def expand_query(
         hop=hop,
         blocked_concepts=blocked_concepts,
     )
-    ranked_candidates = rank_expansion_candidates(candidates, strategy=strategy)
+    ranked_candidates = rank_expansion_candidates(
+        candidates,
+        strategy=strategy,
+        graph=graph,
+    )
     expanded_concepts = ranked_candidates[:top_n]
 
     trace["expanded_concepts"] = expanded_concepts
@@ -224,9 +238,25 @@ def expand_query(
     return trace
 
 
+## Helper Fucntions
+
 def _edge_weight(graph, source, target):
     """Return edge weight, defaulting to 1 when the graph edge has no weight."""
     return graph[source][target].get("weight", 1)
+
+
+def _rank_score(concept, edge_score, strategy, graph):
+    """Return the ranking score for one candidate under the chosen strategy."""
+    if strategy == "edge_weight":
+        return edge_score
+
+    passage_count = _node_passage_count(graph, concept)
+    return edge_score / math.log(2 + passage_count)
+
+
+def _node_passage_count(graph, concept):
+    """Return candidate passage_count with a safe floor for log scoring."""
+    return max(1, graph.nodes[concept].get("passage_count", 1))
 
 
 def _add_candidate(

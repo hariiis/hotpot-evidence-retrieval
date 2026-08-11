@@ -199,3 +199,36 @@ def test_blocked_concepts_do_not_enter_expansion_results():
     expanded = {item["concept"] for item in trace["expanded_concepts"]}
 
     assert "marvel studios" not in expanded
+
+## Test specificity strategy
+
+def test_edge_weight_log_passage_count_downweights_common_candidates():
+    """The specificity strategy should penalize high-passage-count concepts."""
+    graph = nx.Graph()
+    graph.add_edge("doctor strange", "generic film", weight=10)
+    graph.add_edge("doctor strange", "scott derrickson", weight=3)
+    graph.nodes["generic film"]["passage_count"] = 1000
+    graph.nodes["scott derrickson"]["passage_count"] = 1
+
+    baseline_trace = expand_query(
+        query="Who directed Doctor Strange?",
+        query_concepts=["doctor strange"],
+        graph=graph,
+        hop=1,
+        top_n=2,
+        strategy="edge_weight",
+    )
+    specificity_trace = expand_query(
+        query="Who directed Doctor Strange?",
+        query_concepts=["doctor strange"],
+        graph=graph,
+        hop=1,
+        top_n=2,
+        strategy="edge_weight_log_passage_count",
+    )
+
+    assert baseline_trace["expanded_concepts"][0]["concept"] == "generic film"
+    assert (
+        specificity_trace["expanded_concepts"][0]["concept"]
+        == "scott derrickson"
+    )
