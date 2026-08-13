@@ -1,0 +1,2 @@
+method,hop,top_n,strategy,k1,b,num_queries,recall_at_5,recall_at_10,mrr_at_10,ndcg_at_10
+query_expansion_bm25,1,10,edge_weight,1.500000,0.750000,100,0.436500,0.566500,0.585825,0.476096
