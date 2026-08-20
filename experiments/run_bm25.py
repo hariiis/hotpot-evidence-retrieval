@@ -67,6 +67,89 @@ def bm25_model_name(k1, b):
     return f"k1={k1}_b={b}"
 
 
+def run_bm25_experiment(
+    queries,
+    passages,
+    qrels,
+    top_k,
+    k1,
+    b,
+    topk_output,
+    per_query_output,
+    summary_output,
+):
+    """
+    Run BM25 retrieval, evaluate it, write artifacts, and return metrics.
+
+    This function keeps the command-line behavior reusable by orchestration
+    scripts such as the Week 6 ablation runner.
+    """
+    results, output_records = run_retrieval(
+        queries=queries,
+        passages=passages,
+        top_k=top_k,
+        k1=k1,
+        b=b,
+    )
+
+    # Reuse one dictionary so each metric function can fill in per-query values.
+    per_query_metrics = {}
+    recall_at_5 = recall_at_k(results, qrels, 5, per_query_metrics)
+    recall_at_10 = recall_at_k(results, qrels, 10, per_query_metrics)
+    mrr_at_10 = mrr_at_k(results, qrels, 10, per_query_metrics)
+    ndcg_at_10 = ndcg_at_k(results, qrels, 10, per_query_metrics)
+
+    # Preserve the query file order in the per-query CSV.
+    query_ids = [query_record["query_id"] for query_record in queries]
+    per_query_rows = build_per_query_metric_rows(per_query_metrics, query_ids)
+    summary_row = build_summary_row(
+        method="bm25",
+        model=bm25_model_name(k1, b),
+        num_queries=len(queries),
+        top_k=top_k,
+        recall_at_5=recall_at_5,
+        recall_at_10=recall_at_10,
+        mrr_at_10=mrr_at_10,
+        ndcg_at_10=ndcg_at_10,
+    )
+
+    write_jsonl(output_records, topk_output)
+    write_csv(
+        per_query_rows,
+        per_query_output,
+        fieldnames=PER_QUERY_COLUMNS,
+    )
+    write_csv(
+        [summary_row],
+        summary_output,
+        fieldnames=SUMMARY_COLUMNS,
+    )
+
+    summary = {
+        "recall_at_5": recall_at_5,
+        "recall_at_10": recall_at_10,
+        "mrr_at_10": mrr_at_10,
+        "ndcg_at_10": ndcg_at_10,
+    }
+
+    # Report saved output locations and final BM25 retrieval scores.
+    print(f"Wrote BM25 top-{top_k} results to {topk_output}")
+    print(f"Wrote per-query metrics to {per_query_output}")
+    print(f"Wrote BM25 summary to {summary_output}")
+    print(f"Recall@5: {recall_at_5:.6f}")
+    print(f"Recall@10: {recall_at_10:.6f}")
+    print(f"MRR@10: {mrr_at_10:.6f}")
+    print(f"nDCG@10: {ndcg_at_10:.6f}")
+
+    return {
+        "results_by_id": results,
+        "topk_records": output_records,
+        "per_query_rows": per_query_rows,
+        "summary_row": summary_row,
+        "summary": summary,
+    }
+
+
 def main():
     """Parse command-line arguments, run retrieval, evaluate, and save outputs."""
     parser = argparse.ArgumentParser()
@@ -90,55 +173,17 @@ def main():
     queries = load_jsonl(args.queries)
     passages = load_passages(args.passages)
     qrels = load_qrels(args.qrels)
-    results, output_records = run_retrieval(
+    run_bm25_experiment(
         queries=queries,
         passages=passages,
         top_k=args.top_k,
         k1=args.k1,
         b=args.b,
+        qrels=qrels,
+        topk_output=args.topk_output,
+        per_query_output=args.per_query_output,
+        summary_output=args.summary_output,
     )
-
-    # Reuse one dictionary so each metric function can fill in per-query values.
-    per_query_metrics = {}
-    recall_at_5 = recall_at_k(results, qrels, 5, per_query_metrics)
-    recall_at_10 = recall_at_k(results, qrels, 10, per_query_metrics)
-    mrr_at_10 = mrr_at_k(results, qrels, 10, per_query_metrics)
-    ndcg_at_10 = ndcg_at_k(results, qrels, 10, per_query_metrics)
-
-    # Preserve the query file order in the per-query CSV.
-    query_ids = [query_record["query_id"] for query_record in queries]
-    per_query_rows = build_per_query_metric_rows(per_query_metrics, query_ids)
-    summary_row = build_summary_row(
-        method="bm25",
-        model=bm25_model_name(args.k1, args.b),
-        num_queries=len(queries),
-        top_k=args.top_k,
-        recall_at_5=recall_at_5,
-        recall_at_10=recall_at_10,
-        mrr_at_10=mrr_at_10,
-        ndcg_at_10=ndcg_at_10,
-    )
-
-    write_jsonl(output_records, args.topk_output)
-    write_csv(
-        per_query_rows,
-        args.per_query_output,
-        fieldnames=PER_QUERY_COLUMNS,
-    )
-    write_csv(
-        [summary_row],
-        args.summary_output,
-        fieldnames=SUMMARY_COLUMNS,
-    )
-
-    # Report saved output locations and final BM25 retrieval scores.
-    print(f"Wrote BM25 top-{args.top_k} results to {args.topk_output}")
-    print(f"Wrote per-query metrics to {args.per_query_output}")
-    print(f"Wrote BM25 summary to {args.summary_output}")
-    print(f"Recall@5: {recall_at_5:.6f}")
-    print(f"Recall@10: {recall_at_10:.6f}")
-    print(f"MRR@10: {mrr_at_10:.6f}")
-    print(f"nDCG@10: {ndcg_at_10:.6f}")
 
 
 if __name__ == "__main__":

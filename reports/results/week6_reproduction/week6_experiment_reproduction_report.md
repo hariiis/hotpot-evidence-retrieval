@@ -35,7 +35,7 @@
 | Main expansion: hop=1, top_n=5                       | 0.472333 | 0.617333  | 0.619718 | 0.510217 | 与 Week 5 完全一致                       |
 | Supplement: hop=1, top_n=3                           | 0.469833 | 0.609833  | 0.650345 | 0.521765 | 与 Week 5 完全一致                       |
 
-机器可读的 reproduction summary 保存在 `reports/results/week6/reproduction_summary.csv`。
+机器可读的 reproduction summary 保存在 `reports/results/week6_reproduction/reproduction_summary.csv`。
 
 ## Additional Consistency Checks
 

@@ -14,6 +14,7 @@ complete result package under one output directory:
 import argparse
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 
 # Add project modules to the import path when this script is run directly.
@@ -123,7 +124,7 @@ def format_float(value):
     return f"{value:.6f}"
 
 
-def run_query_expansion_experiment(
+def run_query_expansion_retrieval(
     queries,
     query_concepts_by_id,
     graph,
@@ -132,11 +133,17 @@ def run_query_expansion_experiment(
     top_n,
     strategy,
     top_k,
+    blocked_concepts=None,
 ):
     """
-    Expand every query, retrieve with BM25, and collect result records.
+    Run only the query-expansion retrieval loop.
 
-    The BM25 retriever is passed in after being built once over all passages.
+    This function does not build BM25. It only uses the BM25Retriever passed 
+    by the caller to retrieve passages for each expanded query.
+
+    This function expands each query, retrieves BM25 top-k results with the
+    expanded text, and returns in-memory top-k records plus expansion traces. 
+    It does not evaluate metrics or write files.  
     """
     results_by_id = {}
     topk_records = []
@@ -154,6 +161,7 @@ def run_query_expansion_experiment(
             hop=hop,
             top_n=top_n,
             strategy=strategy,
+            blocked_concepts=blocked_concepts,
         )
 
         # Keep original_query in outputs, but retrieve with the expanded query.
@@ -285,6 +293,84 @@ def write_outputs(output_dir, topk_records, per_query_rows, summary_row, traces)
     write_jsonl(traces, output_dir / "expansion_traces.jsonl")
 
 
+def run_query_expansion_experiment(
+    queries,
+    query_concepts_by_id,
+    graph,
+    retriever,
+    qrels,
+    hop,
+    top_n,
+    strategy,
+    top_k,
+    k1,
+    b,
+    output_dir,
+    blocked_concepts=None,
+):
+    """
+    Run one complete query-expansion experiment package.
+
+    This function wraps run_query_expansion_retrieval(), computes per-query and
+    summary metrics, writes the standard output files, and returns the full
+    in-memory outputs for orchestration scripts. blocked_concepts is applied
+    only during expansion candidate selection and does not mutate the concept
+    graph.
+    """
+    results_by_id, topk_records, expansion_traces = (
+        run_query_expansion_retrieval(
+            queries=queries,
+            query_concepts_by_id=query_concepts_by_id,
+            graph=graph,
+            retriever=retriever,
+            hop=hop,
+            top_n=top_n,
+            strategy=strategy,
+            top_k=top_k,
+            blocked_concepts=blocked_concepts,
+        )
+    )
+    per_query_rows, summary = evaluate_results(queries, qrels, results_by_id)
+
+    args = SimpleNamespace(
+        hop=hop,
+        top_n=top_n,
+        strategy=strategy,
+        k1=k1,
+        b=b,
+    )
+    method = experiment_method_name(hop)
+    per_query_rows = add_experiment_columns(per_query_rows, args, method)
+    summary_row = build_summary_row(
+        args=args,
+        method=method,
+        num_queries=len(queries),
+        summary=summary,
+    )
+
+    write_outputs(
+        output_dir=output_dir,
+        topk_records=topk_records,
+        per_query_rows=per_query_rows,
+        summary_row=summary_row,
+        traces=expansion_traces,
+    )
+
+    print(f"Wrote top-k results to {output_dir}/topk.jsonl")
+    print(f"Wrote per-query metrics to {output_dir}/per_query.csv")
+    print(f"Wrote summary metrics to {output_dir}/summary.csv")
+    print(f"Wrote expansion traces to {output_dir}/expansion_traces.jsonl")
+
+    return {
+        "results_by_id": results_by_id,
+        "topk_records": topk_records,
+        "per_query_rows": per_query_rows,
+        "summary_row": summary_row,
+        "summary": summary,
+        "expansion_traces": expansion_traces,
+    }
+
+
 def main():
     """Load inputs, run query expansion retrieval, evaluate, and save outputs."""
     args = parse_args()
@@ -300,42 +386,20 @@ def main():
 
     # Build the corpus-level BM25 index once, then reuse it for every query.
     retriever = BM25Retriever(passages, k1=args.k1, b=args.b)
-
-    results_by_id, topk_records, expansion_traces = (
-        run_query_expansion_experiment(
-            queries=queries,
-            query_concepts_by_id=query_concepts_by_id,
-            graph=graph,
-            retriever=retriever,
-            hop=args.hop,
-            top_n=args.top_n,
-            strategy=args.strategy,
-            top_k=args.top_k,
-        )
-    )
-    per_query_rows, summary = evaluate_results(queries, qrels, results_by_id)
-
-    method = experiment_method_name(args.hop)
-    per_query_rows = add_experiment_columns(per_query_rows, args, method)
-    summary_row = build_summary_row(
-        args=args,
-        method=method,
-        num_queries=len(queries),
-        summary=summary,
-    )
-
-    write_outputs(
+    run_query_expansion_experiment(
+        queries=queries,
+        query_concepts_by_id=query_concepts_by_id,
+        graph=graph,
+        retriever=retriever,
+        qrels=qrels,
+        hop=args.hop,
+        top_n=args.top_n,
+        strategy=args.strategy,
+        top_k=args.top_k,
+        k1=args.k1,
+        b=args.b,
         output_dir=args.output_dir,
-        topk_records=topk_records,
-        per_query_rows=per_query_rows,
-        summary_row=summary_row,
-        traces=expansion_traces,
     )
-
-    print(f"Wrote top-k results to {args.output_dir}/topk.jsonl")
-    print(f"Wrote per-query metrics to {args.output_dir}/per_query.csv")
-    print(f"Wrote summary metrics to {args.output_dir}/summary.csv")
-    print(f"Wrote expansion traces to {args.output_dir}/expansion_traces.jsonl")
 
 
 if __name__ == "__main__":

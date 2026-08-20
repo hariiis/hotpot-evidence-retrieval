@@ -1,0 +1,173 @@
+rank,concept,passage_count,filter_rule,filter_threshold
+1,american,196,top_1_percent_by_passage_count,0.010000
+2,united states,125,top_1_percent_by_passage_count,0.010000
+3,song,88,top_1_percent_by_passage_count,0.010000
+4,second,86,top_1_percent_by_passage_count,0.010000
+5,film,80,top_1_percent_by_passage_count,0.010000
+6,english,74,top_1_percent_by_passage_count,0.010000
+7,album,72,top_1_percent_by_passage_count,0.010000
+8,series,58,top_1_percent_by_passage_count,0.010000
+9,university,58,top_1_percent_by_passage_count,0.010000
+10,time,50,top_1_percent_by_passage_count,0.010000
+11,british,46,top_1_percent_by_passage_count,0.010000
+12,italian,46,top_1_percent_by_passage_count,0.010000
+13,season,46,top_1_percent_by_passage_count,0.010000
+14,2010,41,top_1_percent_by_passage_count,0.010000
+15,members,40,top_1_percent_by_passage_count,0.010000
+16,year,39,top_1_percent_by_passage_count,0.010000
+17,number,38,top_1_percent_by_passage_count,0.010000
+18,u s,38,top_1_percent_by_passage_count,0.010000
+19,october,37,top_1_percent_by_passage_count,0.010000
+20,september,37,top_1_percent_by_passage_count,0.010000
+21,member,35,top_1_percent_by_passage_count,0.010000
+22,director,34,top_1_percent_by_passage_count,0.010000
+23,june,34,top_1_percent_by_passage_count,0.010000
+24,july,33,top_1_percent_by_passage_count,0.010000
+25,november,33,top_1_percent_by_passage_count,0.010000
+26,april,32,top_1_percent_by_passage_count,0.010000
+27,california,31,top_1_percent_by_passage_count,0.010000
+28,team,31,top_1_percent_by_passage_count,0.010000
+29,2014,30,top_1_percent_by_passage_count,0.010000
+30,australia,30,top_1_percent_by_passage_count,0.010000
+31,new york city,30,top_1_percent_by_passage_count,0.010000
+32,years,30,top_1_percent_by_passage_count,0.010000
+33,city,29,top_1_percent_by_passage_count,0.010000
+34,february,29,top_1_percent_by_passage_count,0.010000
+35,town,29,top_1_percent_by_passage_count,0.010000
+36,group,28,top_1_percent_by_passage_count,0.010000
+37,world,28,top_1_percent_by_passage_count,0.010000
+38,2000,27,top_1_percent_by_passage_count,0.010000
+39,lake,27,top_1_percent_by_passage_count,0.010000
+40,march,27,top_1_percent_by_passage_count,0.010000
+41,men,27,top_1_percent_by_passage_count,0.010000
+42,place,27,top_1_percent_by_passage_count,0.010000
+43,population,27,top_1_percent_by_passage_count,0.010000
+44,united kingdom,27,top_1_percent_by_passage_count,0.010000
+45,work,27,top_1_percent_by_passage_count,0.010000
+46,china,26,top_1_percent_by_passage_count,0.010000
+47,home games,26,top_1_percent_by_passage_count,0.010000
+48,january,26,top_1_percent_by_passage_count,0.010000
+49,love,26,top_1_percent_by_passage_count,0.010000
+50,president,26,top_1_percent_by_passage_count,0.010000
+51,soviet,26,top_1_percent_by_passage_count,0.010000
+52,state,26,top_1_percent_by_passage_count,0.010000
+53,area,25,top_1_percent_by_passage_count,0.010000
+54,ethiopia,25,top_1_percent_by_passage_count,0.010000
+55,french,25,top_1_percent_by_passage_count,0.010000
+56,new york,25,top_1_percent_by_passage_count,0.010000
+57,2004,24,top_1_percent_by_passage_count,0.010000
+58,2007,24,top_1_percent_by_passage_count,0.010000
+59,2009,24,top_1_percent_by_passage_count,0.010000
+60,2012,24,top_1_percent_by_passage_count,0.010000
+61,addition,24,top_1_percent_by_passage_count,0.010000
+62,august,24,top_1_percent_by_passage_count,0.010000
+63,history,24,top_1_percent_by_passage_count,0.010000
+64,japanese,24,top_1_percent_by_passage_count,0.010000
+65,russian,24,top_1_percent_by_passage_count,0.010000
+66,world war ii,24,top_1_percent_by_passage_count,0.010000
+67,2006,23,top_1_percent_by_passage_count,0.010000
+68,book,23,top_1_percent_by_passage_count,0.010000
+69,fourth,23,top_1_percent_by_passage_count,0.010000
+70,title,23,top_1_percent_by_passage_count,0.010000
+71,2001,22,top_1_percent_by_passage_count,0.010000
+72,2013,22,top_1_percent_by_passage_count,0.010000
+73,australian,22,top_1_percent_by_passage_count,0.010000
+74,band,22,top_1_percent_by_passage_count,0.010000
+75,company,22,top_1_percent_by_passage_count,0.010000
+76,december,22,top_1_percent_by_passage_count,0.010000
+77,end,22,top_1_percent_by_passage_count,0.010000
+78,people,22,top_1_percent_by_passage_count,0.010000
+79,2002,21,top_1_percent_by_passage_count,0.010000
+80,2015,21,top_1_percent_by_passage_count,0.010000
+81,annual,21,top_1_percent_by_passage_count,0.010000
+82,books,21,top_1_percent_by_passage_count,0.010000
+83,canada,21,top_1_percent_by_passage_count,0.010000
+84,episode,21,top_1_percent_by_passage_count,0.010000
+85,kansas,21,top_1_percent_by_passage_count,0.010000
+86,kansas city,21,top_1_percent_by_passage_count,0.010000
+87,commonwealth,20,top_1_percent_by_passage_count,0.010000
+88,country,20,top_1_percent_by_passage_count,0.010000
+89,england,20,top_1_percent_by_passage_count,0.010000
+90,home,20,top_1_percent_by_passage_count,0.010000
+91,japan,20,top_1_percent_by_passage_count,0.010000
+92,life,20,top_1_percent_by_passage_count,0.010000
+93,music,20,top_1_percent_by_passage_count,0.010000
+94,school,20,top_1_percent_by_passage_count,0.010000
+95,story,20,top_1_percent_by_passage_count,0.010000
+96,war,20,top_1_percent_by_passage_count,0.010000
+97,1996,19,top_1_percent_by_passage_count,0.010000
+98,2003,19,top_1_percent_by_passage_count,0.010000
+99,2011,19,top_1_percent_by_passage_count,0.010000
+100,2016,19,top_1_percent_by_passage_count,0.010000
+101,south,19,top_1_percent_by_passage_count,0.010000
+102,today,19,top_1_percent_by_passage_count,0.010000
+103,trump,19,top_1_percent_by_passage_count,0.010000
+104,virginia,19,top_1_percent_by_passage_count,0.010000
+105,washington,19,top_1_percent_by_passage_count,0.010000
+106,1988,18,top_1_percent_by_passage_count,0.010000
+107,2008,18,top_1_percent_by_passage_count,0.010000
+108,chairman,18,top_1_percent_by_passage_count,0.010000
+109,east,18,top_1_percent_by_passage_count,0.010000
+110,hornets,18,top_1_percent_by_passage_count,0.010000
+111,nba,18,top_1_percent_by_passage_count,0.010000
+112,novel,18,top_1_percent_by_passage_count,0.010000
+113,release,18,top_1_percent_by_passage_count,0.010000
+114,west,18,top_1_percent_by_passage_count,0.010000
+115,1992,17,top_1_percent_by_passage_count,0.010000
+116,2017,17,top_1_percent_by_passage_count,0.010000
+117,colorado,17,top_1_percent_by_passage_count,0.010000
+118,france,17,top_1_percent_by_passage_count,0.010000
+119,songs,17,top_1_percent_by_passage_count,0.010000
+120,teen titans,17,top_1_percent_by_passage_count,0.010000
+121,white house,17,top_1_percent_by_passage_count,0.010000
+122,100,16,top_1_percent_by_passage_count,0.010000
+123,1999,16,top_1_percent_by_passage_count,0.010000
+124,career,16,top_1_percent_by_passage_count,0.010000
+125,family,16,top_1_percent_by_passage_count,0.010000
+126,italy,16,top_1_percent_by_passage_count,0.010000
+127,office,16,top_1_percent_by_passage_count,0.010000
+128,pooh,16,top_1_percent_by_passage_count,0.010000
+129,uk,16,top_1_percent_by_passage_count,0.010000
+130,1998,15,top_1_percent_by_passage_count,0.010000
+131,bolsheviks,15,top_1_percent_by_passage_count,0.010000
+132,chain,15,top_1_percent_by_passage_count,0.010000
+133,death,15,top_1_percent_by_passage_count,0.010000
+134,missouri,15,top_1_percent_by_passage_count,0.010000
+135,north,15,top_1_percent_by_passage_count,0.010000
+136,race,15,top_1_percent_by_passage_count,0.010000
+137,scotland,15,top_1_percent_by_passage_count,0.010000
+138,use,15,top_1_percent_by_passage_count,0.010000
+139,world war,15,top_1_percent_by_passage_count,0.010000
+140,16,14,top_1_percent_by_passage_count,0.010000
+141,1989,14,top_1_percent_by_passage_count,0.010000
+142,1990,14,top_1_percent_by_passage_count,0.010000
+143,1994,14,top_1_percent_by_passage_count,0.010000
+144,airport,14,top_1_percent_by_passage_count,0.010000
+145,battle,14,top_1_percent_by_passage_count,0.010000
+146,building,14,top_1_percent_by_passage_count,0.010000
+147,date,14,top_1_percent_by_passage_count,0.010000
+148,diplomatic mission,14,top_1_percent_by_passage_count,0.010000
+149,juliet,14,top_1_percent_by_passage_count,0.010000
+150,los angeles,14,top_1_percent_by_passage_count,0.010000
+151,result,14,top_1_percent_by_passage_count,0.010000
+152,round,14,top_1_percent_by_passage_count,0.010000
+153,seven,14,top_1_percent_by_passage_count,0.010000
+154,silene,14,top_1_percent_by_passage_count,0.010000
+155,village,14,top_1_percent_by_passage_count,0.010000
+156,1974,13,top_1_percent_by_passage_count,0.010000
+157,1985,13,top_1_percent_by_passage_count,0.010000
+158,1987,13,top_1_percent_by_passage_count,0.010000
+159,1991,13,top_1_percent_by_passage_count,0.010000
+160,2005,13,top_1_percent_by_passage_count,0.010000
+161,america,13,top_1_percent_by_passage_count,0.010000
+162,assistant secretary,13,top_1_percent_by_passage_count,0.010000
+163,bill cosby,13,top_1_percent_by_passage_count,0.010000
+164,co,13,top_1_percent_by_passage_count,0.010000
+165,development,13,top_1_percent_by_passage_count,0.010000
+166,films,13,top_1_percent_by_passage_count,0.010000
+167,genus,13,top_1_percent_by_passage_count,0.010000
+168,german,13,top_1_percent_by_passage_count,0.010000
+169,india,13,top_1_percent_by_passage_count,0.010000
+170,new hampshire,13,top_1_percent_by_passage_count,0.010000
+171,new orleans,13,top_1_percent_by_passage_count,0.010000
+172,new zealand,13,top_1_percent_by_passage_count,0.010000

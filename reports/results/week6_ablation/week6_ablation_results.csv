@@ -1,0 +1,4 @@
+experiment_name,num_queries,strategy,hop,top_n,filtering,filter_rule,filter_threshold,recall_at_5,recall_at_10,mrr_at_10,ndcg_at_10,delta_recall_at_10_vs_baseline,delta_mrr_at_10_vs_baseline,delta_ndcg_at_10_vs_baseline
+BM25 baseline,100,none,0,0,off,none,,0.546500,0.632333,0.755694,0.585073,0.000000,0.000000,0.000000
+main expansion,100,edge_weight_log_passage_count,1,5,off,none,,0.472333,0.617333,0.619718,0.510217,-0.015000,-0.135976,-0.074856
+filtered expansion,100,edge_weight_log_passage_count,1,5,on,top_1_percent_by_passage_count,0.010000,0.472333,0.612333,0.627163,0.510067,-0.020000,-0.128531,-0.075006
