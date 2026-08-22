@@ -1,0 +1,7 @@
+method,query_type,num_queries,recall_at_5,recall_at_10,mrr_at_10,ndcg_at_10,delta_recall_at_10_vs_baseline,delta_mrr_at_10_vs_baseline,delta_ndcg_at_10_vs_baseline
+BM25 baseline,bridge,79,0.52827,0.620042,0.775141,0.579967,0,0,0
+BM25 baseline,comparison,21,0.615079,0.678571,0.68254,0.604278,0,0,0
+main expansion,bridge,79,0.473418,0.608439,0.662392,0.523408,-0.011603,-0.112749,-0.056559
+main expansion,comparison,21,0.468254,0.650794,0.459184,0.460592,-0.027778,-0.223356,-0.143686
+filtered expansion,bridge,79,0.479747,0.60211,0.672237,0.523457,-0.017933,-0.102903,-0.056511
+filtered expansion,comparison,21,0.444444,0.650794,0.457596,0.459697,-0.027778,-0.224943,-0.144581

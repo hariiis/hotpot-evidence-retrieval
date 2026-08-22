@@ -35,8 +35,8 @@ from result_format import (
 from utils.file_io import load_jsonl, write_csv, write_jsonl
 
 
-def run_retrieval(queries, passages, model_name, top_k, cache_dir, batch_size):
-    """Retrieve top-k passages for every query using the dense retriever."""
+def run_dense_retrieval(queries, passages, model_name, top_k, cache_dir, batch_size):
+    """Run only dense retrieval and return in-memory top-k records."""
     retriever = DenseRetriever(
         passages=passages,
         model_name=model_name,
@@ -68,6 +68,86 @@ def run_retrieval(queries, passages, model_name, top_k, cache_dir, batch_size):
     return results, output_records
 
 
+def run_dense_experiment(
+    queries,
+    passages,
+    qrels,
+    model_name,
+    top_k,
+    cache_dir,
+    batch_size,
+    topk_output,
+    per_query_output,
+    summary_output,
+):
+    """Run dense retrieval, evaluate it, write artifacts, and return outputs."""
+    results, output_records = run_dense_retrieval(
+        queries=queries,
+        passages=passages,
+        model_name=model_name,
+        top_k=top_k,
+        cache_dir=cache_dir,
+        batch_size=batch_size,
+    )
+
+    # Reuse one dictionary so each metric function can fill in per-query values.
+    per_query_metrics = {}
+    recall_at_5 = recall_at_k(results, qrels, 5, per_query_metrics)
+    recall_at_10 = recall_at_k(results, qrels, 10, per_query_metrics)
+    mrr_at_10 = mrr_at_k(results, qrels, 10, per_query_metrics)
+    ndcg_at_10 = ndcg_at_k(results, qrels, 10, per_query_metrics)
+
+    # Preserve the query file order in the per-query CSV.
+    query_ids = [query_record["query_id"] for query_record in queries]
+    per_query_rows = build_per_query_metric_rows(per_query_metrics, query_ids)
+    summary_row = build_summary_row(
+        method="dense",
+        model=short_model_name(model_name),
+        num_queries=len(queries),
+        top_k=top_k,
+        recall_at_5=recall_at_5,
+        recall_at_10=recall_at_10,
+        mrr_at_10=mrr_at_10,
+        ndcg_at_10=ndcg_at_10,
+    )
+
+    write_jsonl(output_records, topk_output)
+    write_csv(
+        per_query_rows,
+        per_query_output,
+        fieldnames=PER_QUERY_COLUMNS,
+    )
+    write_csv(
+        [summary_row],
+        summary_output,
+        fieldnames=SUMMARY_COLUMNS,
+    )
+
+    summary = {
+        "recall_at_5": recall_at_5,
+        "recall_at_10": recall_at_10,
+        "mrr_at_10": mrr_at_10,
+        "ndcg_at_10": ndcg_at_10,
+    }
+
+    # Report saved output locations and final Dense retrieval scores.
+    print(f"Wrote Dense top-{top_k} results to {topk_output}")
+    print(f"Wrote per-query metrics to {per_query_output}")
+    print(f"Wrote Dense summary to {summary_output}")
+    print(f"Recall@5: {recall_at_5:.6f}")
+    print(f"Recall@10: {recall_at_10:.6f}")
+    print(f"MRR@10: {mrr_at_10:.6f}")
+    print(f"nDCG@10: {ndcg_at_10:.6f}")
+
+    return {
+        "results_by_id": results,
+        "topk_records": output_records,
+        "per_query_rows": per_query_rows,
+        "summary_row": summary_row,
+        "summary": summary,
+    }
+
+
 def short_model_name(model_name):
     """Return the final path segment of a model name for compact reporting."""
     return model_name.rstrip("/").split("/")[-1]
@@ -97,57 +177,18 @@ def main():
     queries = load_jsonl(args.queries)
     passages = load_jsonl(args.passages)
     qrels = load_qrels(args.qrels)
-
-    results, output_records = run_retrieval(
+    run_dense_experiment(
         queries=queries,
         passages=passages,
+        qrels=qrels,
         model_name=args.model,
         top_k=args.top_k,
         cache_dir=args.cache_dir,
         batch_size=args.batch_size,
+        topk_output=args.topk_output,
+        per_query_output=args.per_query_output,
+        summary_output=args.summary_output,
     )
-
-    # Reuse one dictionary so each metric function can fill in per-query values.
-    per_query_metrics = {}
-    recall_at_5 = recall_at_k(results, qrels, 5, per_query_metrics)
-    recall_at_10 = recall_at_k(results, qrels, 10, per_query_metrics)
-    mrr_at_10 = mrr_at_k(results, qrels, 10, per_query_metrics)
-    ndcg_at_10 = ndcg_at_k(results, qrels, 10, per_query_metrics)
-
-    # Preserve the query file order in the per-query CSV.
-    query_ids = [query_record["query_id"] for query_record in queries]
-    per_query_rows = build_per_query_metric_rows(per_query_metrics, query_ids)
-    summary_row = build_summary_row(
-        method="dense",
-        model=short_model_name(args.model),
-        num_queries=len(queries),
-        top_k=args.top_k,
-        recall_at_5=recall_at_5,
-        recall_at_10=recall_at_10,
-        mrr_at_10=mrr_at_10,
-        ndcg_at_10=ndcg_at_10,
-    )
-
-    write_jsonl(output_records, args.topk_output)
-    write_csv(
-        per_query_rows,
-        args.per_query_output,
-        fieldnames=PER_QUERY_COLUMNS,
-    )
-    write_csv(
-        [summary_row],
-        args.summary_output,
-        fieldnames=SUMMARY_COLUMNS,
-    )
-
-    # Report saved output locations and final Dense retrieval scores.
-    print(f"Wrote Dense top-{args.top_k} results to {args.topk_output}")
-    print(f"Wrote per-query metrics to {args.per_query_output}")
-    print(f"Wrote Dense summary to {args.summary_output}")
-    print(f"Recall@5: {recall_at_5:.6f}")
-    print(f"Recall@10: {recall_at_10:.6f}")
-    print(f"MRR@10: {mrr_at_10:.6f}")
-    print(f"nDCG@10: {ndcg_at_10:.6f}")
 
 
 if __name__ == "__main__":

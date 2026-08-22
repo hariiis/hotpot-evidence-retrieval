@@ -39,8 +39,8 @@ from result_format import (
 from utils.file_io import load_jsonl, write_csv, write_jsonl
 
 
-def run_retrieval(queries, retriever, top_k, candidate_k):
-    """Retrieve top-k passages for every query using one HybridRetriever."""
+def run_hybrid_retrieval(queries, retriever, top_k, candidate_k):
+    """Run only hybrid retrieval and return in-memory top-k records."""
     results = {}
     output_records = []
 
@@ -97,29 +97,43 @@ def evaluate_results(queries, qrels, results):
     return per_query_rows, recall_at_5, recall_at_10, mrr_at_10, ndcg_at_10
 
 
-def run_alpha_experiment(args, queries, passages, qrels, alpha):
-    """Run retrieval, evaluate metrics, and write files for one alpha value."""
+def run_hybrid_experiment(
+    queries,
+    passages,
+    qrels,
+    alpha,
+    top_k,
+    candidate_k,
+    k1,
+    b,
+    model_name,
+    cache_dir,
+    batch_size,
+    output_dir,
+    report_dir,
+):
+    """Run one hybrid retrieval experiment, write artifacts, and return outputs."""
     alpha_text, alpha_label = format_alpha(alpha)
     print(
         f"Running Hybrid retrieval with alpha={alpha_text}, "
-        f"candidate_k={args.candidate_k}"
+        f"candidate_k={candidate_k}"
     )
 
     retriever = HybridRetriever(
         passages=passages,
         alpha=alpha,
-        bm25_k1=args.k1,
-        bm25_b=args.b,
-        dense_model=args.model,
-        cache_dir=args.cache_dir,
-        batch_size=args.batch_size,
+        bm25_k1=k1,
+        bm25_b=b,
+        dense_model=model_name,
+        cache_dir=cache_dir,
+        batch_size=batch_size,
     )
 
-    results, output_records = run_retrieval(
+    results, output_records = run_hybrid_retrieval(
         queries=queries,
         retriever=retriever,
-        top_k=args.top_k,
-        candidate_k=args.candidate_k,
+        top_k=top_k,
+        candidate_k=candidate_k,
     )
 
     per_query_rows, recall_at_5, recall_at_10, mrr_at_10, ndcg_at_10 = (
@@ -128,19 +142,19 @@ def run_alpha_experiment(args, queries, passages, qrels, alpha):
 
     summary_row = build_summary_row(
         method=f"hybrid_alpha_{alpha_text}",
-        model=f"bm25+dense:{short_model_name(args.model)}",
+        model=f"bm25+dense:{short_model_name(model_name)}",
         num_queries=len(queries),
-        top_k=args.top_k,
+        top_k=top_k,
         recall_at_5=recall_at_5,
         recall_at_10=recall_at_10,
         mrr_at_10=mrr_at_10,
         ndcg_at_10=ndcg_at_10,
     )
 
-    result_label = f"alpha_{alpha_label}_candidate{args.candidate_k}"
-    topk_output = f"{args.output_dir}/hybrid_{result_label}_top{args.top_k}.jsonl"
-    per_query_output = f"{args.report_dir}/{result_label}_per_query.csv"
-    summary_output = f"{args.report_dir}/{result_label}_summary.csv"
+    result_label = f"alpha_{alpha_label}_candidate{candidate_k}"
+    topk_output = f"{output_dir}/hybrid_{result_label}_top{top_k}.jsonl"
+    per_query_output = f"{report_dir}/{result_label}_per_query.csv"
+    summary_output = f"{report_dir}/{result_label}_summary.csv"
 
     write_jsonl(output_records, topk_output)
     write_csv(per_query_rows, per_query_output, fieldnames=PER_QUERY_COLUMNS)
@@ -154,7 +168,20 @@ def run_alpha_experiment(args, queries, passages, qrels, alpha):
     print(f"MRR@10: {mrr_at_10:.6f}")
     print(f"nDCG@10: {ndcg_at_10:.6f}")
 
-    return summary_row
+    summary = {
+        "recall_at_5": recall_at_5,
+        "recall_at_10": recall_at_10,
+        "mrr_at_10": mrr_at_10,
+        "ndcg_at_10": ndcg_at_10,
+    }
+
+    return {
+        "results_by_id": results,
+        "topk_records": output_records,
+        "per_query_rows": per_query_rows,
+        "summary_row": summary_row,
+        "summary": summary,
+    }
 
 
 def main():
@@ -194,7 +221,21 @@ def main():
     qrels = load_qrels(args.qrels)
 
     for alpha in args.alphas:
-        run_alpha_experiment(args, queries, passages, qrels, alpha)
+        run_hybrid_experiment(
+            queries=queries,
+            passages=passages,
+            qrels=qrels,
+            alpha=alpha,
+            top_k=args.top_k,
+            candidate_k=args.candidate_k,
+            k1=args.k1,
+            b=args.b,
+            model_name=args.model,
+            cache_dir=args.cache_dir,
+            batch_size=args.batch_size,
+            output_dir=args.output_dir,
+            report_dir=args.report_dir,
+        )
 
 
 if __name__ == "__main__":
